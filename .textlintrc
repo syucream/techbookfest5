@@ -1,0 +1,12 @@
+{
+    "plugins": {
+      "review"
+    },
+    "rules": {
+        "no-mix-dearu-desumasu": true,
+        "spellcheck-tech-word": true
+    },
+    "filters": {
+        "comments": true
+    }
+}
