@@ -7,9 +7,10 @@ jobs:
       - checkout
       - run:
           name: Install textlint and rules
-          command: npm install -g --unsafe-perm textlint \
-          textlint-plugin-review textlint-filter-rule-comments \
-          textlint-rule-spellcheck-tech-word textlint-rule-no-mix-dearu-desumasu
+          command: |
+            npm install -g --unsafe-perm textlint \
+            textlint-plugin-review textlint-filter-rule-comments \
+            textlint-rule-spellcheck-tech-word textlint-rule-no-mix-dearu-desumasu
       - run:
           name: Lint text
           command: textlint **/*.re
