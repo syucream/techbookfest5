@@ -37,5 +37,6 @@ jobs:
 workflows:
   version: 2
   publish-workflow:
-    - lint
-    - publish
+    jobs:
+      - lint
+      - publish
