@@ -1,0 +1,43 @@
+version: 2
+jobs:
+  lint:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install textlint and rules
+          command: |
+            sudo npm install -g --unsafe-perm textlint \
+            textlint-plugin-review textlint-filter-rule-comments \
+            textlint-rule-spellcheck-tech-word textlint-rule-no-mix-dearu-desumasu
+      - run:
+          name: Lint text
+          command: textlint **/*.re
+  build-and-publish:
+    docker:
+      - image: vvakame/review
+    steps:
+      - checkout
+      - run:
+          name: Build pdf and epub
+          command: rake clean pdf epub
+      - store_artifacts:
+          path: ./book.pdf
+          destination: book.pdf
+      - store_artifacts:
+          path: ./book.epub
+          destination: book.epub
+      - run:
+          name: Comment to PullRequest
+          command: |
+            ISSUE_NUM=`echo $CIRCLE_PULL_REQUEST | awk -F'/' '{print $7}'`; \
+            curl -X POST -d "{\"body\": \"Built pdf/epub is here > $CIRCLE_BUILD_URL#artifacts/containers/$CIRCLE_NODE_INDEX\"}" \
+            "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${ISSUE_NUM}/comments?access_token=${GITHUB_ACCESS_TOKEN}"
+
+workflows:
+  version: 2
+  publish-workflow:
+    jobs:
+      - lint
+      - build-and-publish
