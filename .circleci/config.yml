@@ -33,7 +33,7 @@ jobs:
           command: |
             ISSUE_NUM=`echo $CIRCLE_PULL_REQUEST | awk -F'/' '{print $7}'`; \
             curl -X POST -d "{\"body\": \"Built pdf/epub is here > $CIRCLE_BUILD_URL#artifacts/containers/$CIRCLE_NODE_INDEX\"}" \
-            "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${ISSUE_NUM}/comments?access_token=${GITHUB_ACCESS_TOKEN}"
+            "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${ISSUE_NUM}/comments?access_token=${GITHUB_TOKEN}"
 
 workflows:
   version: 2
