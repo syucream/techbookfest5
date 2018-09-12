@@ -1,2 +1,248 @@
-= æš—å·é€šè²¨ã¨ãã®é—‡(ä»®)
+= ‚Æ‚ ‚éƒGƒ“ƒWƒjƒA‚Ì—JŸT
 
+== ‚Í‚¶‚ß‚É
+
+‚Ý‚È‚³‚ñ‚±‚ñ‚É‚¿‚ÍB‚é‚È‚·‚½‚Å‚·B
+¡‰ñ‚ÍAbitcoin ‚Æ‚»‚±‚©‚çƒtƒH[ƒN‚µ‚½ŠeŽíƒAƒ‹ƒgƒRƒCƒ“‚Ì•ø‚¦‚é
+öÝ“I‚È–â‘è‚É‚Â‚¢‚ÄŒê‚ë‚¤‚ÆŽv‚¢‚Ü‚·B
+
+‘O’ñ‚Æ‚È‚é’mŽ¯‚ª­X‘½‚¢‚Å‚·‚ªAŠæ’£‚Á‚Ä‚Â‚¢‚Ä‚«‚Ä‚¢‚½‚¾‚¯‚é‚ÆK‚¢‚Å‚·B
+
+== ‘O’ñ’mŽ¯
+
+=== ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì\‘¢‚ÆŠ—LŒ ‚ÌˆÚ“]—š—ð
+
+bitcoin ‚¨‚æ‚Ñ‚»‚±‚©‚çƒtƒH[ƒN‚µ‚½ŠeŽíƒAƒ‹ƒgƒRƒCƒ“‚ÍA
+Š—LŒ ‚ÌˆÚ“]î•ñA‚Â‚Ü‚èƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðAƒŠƒ“ƒNƒhƒŠƒXƒg‚Ì
+Œ`Ž®‚Å•ÛŽ‚µ‚Ä‚¢‚Ü‚·B
+
+‚Â‚Ü‚èAV‹K‚Éì¬‚³‚ê‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÍA
+ÅŒã‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ IDiˆÈ‰º TXIDj‚ð
+Ž‚Â‚±‚Æ‚ÅAƒRƒCƒ“‚ÌŠ—LŒ ˆÚ“]—š—ð‚ðŠÇ—‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‚±‚Æ‚Å‚·B
+
+‚ ‚éŽc‚î•ñ‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“A‚»‚Ìƒf[ƒ^\‘¢‚ÌŽ‚Â TXID ‚ð
+’H‚é‚Æ‚»‚Ì’¼‘O‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðŒ©‚Â‚¯‚é‚±‚Æ‚ª‚Å‚«A
+‚³‚ç‚É‚»‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒf[ƒ^‚ÌŽ‚Â TXID ‚ð’H‚é‚±‚Æ‚ÅA
+‚³‚ç‚É‚»‚Ì‘O‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒf[ƒ^‚ð“¾‚é‚±‚Æ‚ª‚Å‚«A
+ÅI“I‚É‚ÍƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“A‚Â‚Ü‚èƒuƒƒbƒN‚Ì
+ƒ}ƒCƒjƒ“ƒO•ñV‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ö‚Æ’H‚è‚Â‚­Žd‘g‚Ý‚Å‚·B
+
+=== TXID ‚Æƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒf[ƒ^
+
+‚³‚ÄA‚Æ‚±‚ë‚Å TXID ‚Í‚Ç‚¤‚â‚Á‚ÄŒˆ‚ß‚Ä‚¢‚é‚Ì‚Å‚µ‚å‚¤‚©H
+
+“š‚¦‚ÍŠÈ’P‚ÅAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì¶ƒf[ƒ^A‚±‚ê‚Ì SHA-256 ƒnƒbƒVƒ…’l‚Å‚·B
+
+SHA-256 ƒnƒbƒVƒ…’l‚ÍA“ü—Íƒf[ƒ^’·‚É‚ÍˆË‘¶‚¹‚¸‚É 256bit ‚Ì’·‚³‚ðŽ‚¿A
+“ü—Íƒf[ƒ^‚É‘Î‚µ‚Ä‚Ù‚Ú‚Ù‚Úƒ‰ƒ“ƒ_ƒ€‚È’l‚ð¶¬‚µ‚Ü‚·B
+‚±‚±‚Å’–Ú‚µ‚½‚¢‚Ì‚ÍA•Ê‚ÉˆêˆÓ«‚ª•ÛØ‚³‚ê‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢‚Æ‚¢‚¤“_‚Å‚·B
+‚Â‚Ü‚èAˆÙ‚È‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚É‘Î‚µ‚Ä“¯ˆê‚Ì TXID ‚ªŠ„‚è“–‚Ä‚ç‚ê‚éê‡‚ª
+Šm—¦“I‚É‚Í‘¶Ý‚·‚é‚Æ‚¢‚¤‚±‚Æ‚Å‚·B
+
+Š¨‚Ì‚¢‚¢•û‚Í‚±‚±‚Åu‚ ‚êHv‚ÆŽv‚¤‚Ì‚Å‚Í‚È‚¢‚Å‚µ‚å‚¤‚©B
+TXID ‚Íƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ¯•ÊA‚Â‚Ü‚èƒvƒ‰ƒCƒ}ƒŠƒL[‚Æ‚µ‚ÄŽg—p‚·‚é‚à‚Ì‚È‚Ì‚ÉA
+ˆêˆÓ«‚ª•ÛØ‚³‚ê‚Ä‚¢‚È‚¢BˆêˆÓ«‚ª•ÛØ‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ðƒvƒ‰ƒCƒ}ƒŠƒL[‚Æ‚µ‚ÄŽg—p‚·‚éH
+ƒ}ƒW‚ÅH³‹CH‚ÆŽv‚¤‚Ì‚Å‚Í‚È‚¢‚Å‚µ‚å‚¤‚©H
+
+³’¼‚ÉŒ¾‚¦‚Î‚±‚ÌŽž“_‚ÅÝŒvƒ~ƒX‚ÆŒ¾‚í‚´‚é‚ð“¾‚Ü‚¹‚ñBŒãq‚µ‚Ü‚·‚ªƒuƒƒbƒN“à‚Åƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚É‚Í
+u‡”Ôv‚ª‚ ‚é‚Ì‚ÅATXID ‚ðuƒuƒƒbƒNƒnƒbƒVƒ…{ƒuƒƒbƒN“à˜A”Ôv‚È‚Ç‚É‚µ‚Ä‚¢‚ê‚ÎA
+iÕ“Ë‚µ‚½ƒuƒƒbƒNƒnƒbƒVƒ…‚Íƒ}ƒCƒjƒ“ƒO¬Œ÷‚Æ‚Í‚Ý‚È‚³‚ê‚È‚¢‚½‚ßj¡‰ñ‚Ì–â‘è‚Í
+‚»‚à‚»‚à”­¶‚µ‚È‚©‚Á‚½‚Ì‚Å‚·‚©‚çB
+
+‘åŽ–‚È‚±‚Æ‚È‚Ì‚ÅŒ¾‚¢•û‚ð•Ï‚¦‚Ä‚à‚¤ˆê“xA
+ubitcoin ‚¨‚æ‚Ñ‚»‚±‚©‚çƒtƒH[ƒN‚µ‚½‚·‚×‚Ä‚ÌˆÃ†’Ê‰Ý‚ÍA
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌƒnƒbƒVƒ…’l‚ªÕ“Ë‚µ‚È‚¢‰¼’è‚Ìã‚Å‰Ò“­‚µ‚Ä‚¢‚Ü‚·vB
+
+=== ƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Æƒ}ƒCƒjƒ“ƒO•ñV
+
+‚·‚×‚Ä‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚É‚ÍA“ü—Í‚Æo—Í‚ª‚ ‚èA
+‚»‚ê‚¼‚ê‚ª•Ê‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ö‚ÆÚ‘±‚³‚ê‚Ä‚¢‚Ü‚·‚ªA
+‘S‚Ä‚ÌƒuƒƒbƒN‚É‚»‚ê‚¼‚ê‚½‚¾‚P‚ÂA“ü—Í‘¤‚ªÚ‘±‚³‚ê‚Ä‚¢‚È‚¢
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª‘¶Ý‚µ‚Ü‚·B
+
+‚»‚ê‚ªAƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÆŒÄ‚Î‚ê‚é‚à‚Ì‚ÅA
+‘S‚Ä‚ÌƒuƒƒbƒN‚É‚½‚¾‚P‚Â‘¶Ý‚µAƒ}ƒCƒjƒ“ƒO•ñV‚ð—^‚¦‚é‚½‚ßA
+Š’è‚Ì“ü—ÍŽc‚‚ª‚ ‚é‚à‚Ì‚Æ‚µ‚Äˆ—‚³‚ê‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Æ‚È‚è‚Ü‚·B
+
+=== ƒ}[ƒNƒ‹ƒcƒŠ[‚Æƒ}[ƒNƒ‹ƒ‹[ƒg
+
+ƒuƒƒbƒN‚²‚Æ‚É‚·‚×‚Ä‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð•Û‘¶‚µ‚Ä‚¢‚½‚çA
+ƒRƒCƒ“ƒm[ƒh‚ÌƒfƒBƒXƒN‚Í‚â‚ª‚Äƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒf[ƒ^‚Åˆì‚ê‚Ä‚µ‚Ü‚¤‚±‚Æ‚Å‚µ‚å‚¤B
+
+‚»‚±‚Åƒ}[ƒNƒ‹ƒcƒŠ[‚Æ‚¢‚¤Žd‘g‚Ý‚ª bitcoin ‚É‚Í“±“ü‚³‚ê‚Ä‚¢‚Ü‚·B
+
+‚ ‚éƒuƒƒbƒN‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“1`4‚ª‚ ‚Á‚½‚Æ‚µ‚ÄA
+HASH(Tx1), HASH(Tx2), ... HASH(Tx4) ‚ð‹‚ß‚Ü‚·B
+‚»‚µ‚½‚çAHASH(Tx1) ‚Æ HASH(Tx2) ‚ðÚ‘±‚µ‚Ä 512bit ‚Ìƒf[ƒ^‚Æ‚µ‚ÄƒnƒbƒVƒ…’l‚ðŒvŽZ‚µ‚Ü‚·B
+HASH(HASH(Tx1)+HASH(Tx2)) ‚Æ‚¢‚¤‚í‚¯‚Å‚·‚ËB“¯—l‚É HASH(HASH(Tx3)+HASH(Tx4)) ‚ðŒvŽZ‚µ‚ÄA
+‚»‚ê‚ð‚³‚ç‚Éc‚ÆAƒnƒbƒVƒ…’l‚ÌÚ‘±‚ÆƒnƒbƒVƒ…’lŒvŽZ‚ðÄ‹A“I‚És‚Á‚Ä‚¢‚«‚Ü‚·B
+
+‚±‚¤‚·‚é‚ÆAƒnƒbƒVƒ…’l‚É‚æ‚é“ñ•ª–Ø‚ªŠ®¬‚µ‚Ü‚·B
+‚±‚ê‚ðƒ}[ƒNƒ‹ƒcƒŠ[‚ÆŒÄ‚ÑAª‚Á‚±‚É‚ ‚½‚éƒnƒbƒVƒ…’l‚ð
+ƒ}[ƒNƒ‹ƒ‹[ƒg‚ÆŒÄ‚ñ‚Å‚¢‚Ü‚·B
+
+=== ƒ}ƒCƒjƒ“ƒO‚Æ Nonce
+
+‚³‚ÄAˆê”Ê“I‚ÉˆÃ†’Ê‰Ý‚Ìƒ}ƒCƒjƒ“ƒO‚ÆŒÄ‚Î‚ê‚Ä‚¢‚éˆ—A
+‚±‚ê‚Íˆê‘Ì‰½‚ðs‚Á‚Ä‚¢‚é‚Ì‚Å‚µ‚å‚¤‚©H
+
+ƒuƒƒbƒN‚²‚Æ‚Éu‘OƒuƒƒbƒN‚ÌƒnƒbƒVƒ…’lvu‘ÎÛƒuƒƒbƒN‚Ìƒ}[ƒNƒ‹ƒ‹[ƒgv
+uƒ^ƒCƒ€ƒXƒ^ƒ“ƒvi•b’PˆÊjvuNoncev‚ð˜AŒ‹‚µ‚½‚à‚Ì‚ÌƒnƒbƒVƒ…’l‚ð‹‚ß‚ÄA
+æ“ª‰½ƒrƒbƒg‚©‚ª 0 ‚É‚È‚é‚æ‚¤‚È Nonce ’l‚ð’T‚·A‚Æ‚¢‚¤‚±‚Æ‚ðs‚Á‚Ä‚¢‚Ü‚·B
+
+‚±‚ê‚ª‚¢‚í‚ä‚éƒ}ƒCƒjƒ“ƒO‚ÆŒÄ‚Î‚ê‚ésˆ×‚Ì’†g‚Å‚·‚ªA
+æ“ª‰½ƒrƒbƒg‚ª 0 ‚É‚È‚ê‚Î—Ç‚¢‚©A‚Æ‚¢‚¤‚Ì‚ðŒˆ‚ß‚é‚½‚ß‚É
+difficulty ‚Æ‚¢‚¤ƒpƒ‰ƒ[ƒ^‚ª‘¶Ý‚µ‚Ä‚¢‚Ü‚·B
+
+‚±‚Ìƒpƒ‰ƒ[ƒ^‚ðãŽè‚¢Š´‚¶‚ÅŒˆ’è‚·‚é‚±‚Æ‚ÅA•½‹Ï‚·‚é‚Æ‚¨‚æ‚»10•ª‚Å
+‚PƒuƒƒbƒN”­Œ@‚Å‚«‚é‚æ‚¤‚Éibitcoin ‚Ìê‡j’²®‚³‚ê‚Ä‚¢‚Ü‚·B
+
+=== ƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÆƒGƒNƒXƒgƒ‰ Nonce
+
+‘Oq‚µ‚½‚Æ‚¨‚èAƒnƒbƒVƒ…’l‚Í‚Ù‚Ú‚Ù‚Úƒ‰ƒ“ƒ_ƒ€‚È’l‚ðŽæ‚é‚½‚ßA
+Nonce ‚ð‘S’Tõ‚µ‚Ä‚àŠ’è‚Ì’·‚³‚Ì 0 ‚ÅŽn‚Ü‚éƒnƒbƒVƒ…’l‚ð“¾‚é‚±‚Æ‚ª‚Å‚«‚È‚¢
+‰Â”\«‚ª‚ ‚è‚Ü‚·B‚»‚±‚Å–ð‚É—§‚Â‚Ì‚ªƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Å‚·B
+
+ƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Í‘Oq‚Ì’Ê‚èŠeƒuƒƒbƒN‚É‚½‚¾‚P‚Â
+‘¶Ý‚·‚é‚à‚Ì‚Å‚·‚ªA“ü—Í‚ªÚ‘±‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA
+“ü—Í‘¤ƒŠƒ“ƒN‚ÌA“dŽq–¼‚ð‘‚­‚×‚«—Ìˆæ‚Í’N‚àŽQÆ‚µ‚È‚¢‚Æ‚¢‚¤“Á’¥‚ª‚ ‚è‚Ü‚·B
+
+‚»‚±‚ÅA‚±‚±‚Éƒ‰ƒ“ƒ_ƒ€‚È’l‚ð“ü‚ê‚Ä‚µ‚Ü‚¢‚Ü‚·B
+‚»‚¤‚·‚é‚Æ‚Ç‚¤‚È‚é‚©BƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìƒf[ƒ^‚ª•Ï‰»‚·‚é‚½‚ßA
+ƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌƒnƒbƒVƒ…’lA‚Â‚Ü‚è TXID ‚ª•Ï‰»‚µ‚Ü‚·B
+‚·‚é‚ÆÄ‹A“I‚Éƒ}[ƒNƒ‹ƒcƒŠ[‚ÌŠeƒnƒbƒVƒ…’l‚ª•Ï‰»‚µ‚ÄAÅI“I‚É‚Í
+ƒ}[ƒNƒ‹ƒ‹[ƒg‚Ì’l‚ª‚Ü‚é‚Á‚Æ•Ï‰»‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·B
+
+‚»‚¤‚·‚é‚ÆAÄ“x Nonce ‚ð‘S’Tõ‚·‚é‚±‚Æ‚Åæ“ª‚ª 0 ‚ÅŽn‚Ü‚é‚æ‚¤‚É‚È‚é
+Nonce ‚ð’T‚·‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
+
+‚±‚Ì“Á’¥‚Ì‚½‚ßAƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì“ü—ÍƒŠƒ“ƒNƒf[ƒ^—Ìˆæ‚Í
+ƒGƒNƒXƒgƒ‰ Nonce ‚ÆŒÄ‚Î‚ê‚½‚è‚à‚µ‚Ä‚¢‚Ü‚·B
+ASIC ƒ}ƒCƒjƒ“ƒO‘•’u‚È‚Ç‚ÅA4GH/s ‚ð’´‚¦‚éƒVƒXƒeƒ€‚Å‚Í•K‚¸“±“ü‚³‚ê‚Ä‚¢‚éŽd‘g‚Ý‚Å‚·B
+
+=== TXID ‚ÌÕ“ËŠm—¦‚Æ”µƒm‘ƒŒ´—‚Æƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX
+
+‚³‚ÄA­‚µ‘O‚É TXID ‚ÍÕ“Ë‚Ì‰Â”\«‚ª‚ ‚é‚Æ‚¨˜b‚µ‚µ‚Ü‚µ‚½B
+‚»‚ê‚Íˆê‘Ì‚Ç‚Ì’ö“x‚ÌŠm—¦‚Å‚µ‚å‚¤‚©H
+
+‰¼’è‚Æ‚µ‚ÄA256bit ‚ÌƒnƒbƒVƒ…’l‚Í‚·‚×‚Ä‚Ì’l‚ª“¯‚¶Šm—¦‚ÅoŒ»‚·‚éiˆê—l•ª•zj‚à‚Ì‚Æ‚µ‚Ü‚·B
+
+”µƒm‘ƒŒ´—‚Æ‚¢‚¤‚à‚Ì‚ð‚²‘¶‚¶‚Å‚µ‚å‚¤‚©H
+—á‚¦‚Î‚T‚Â‚Ì”µƒm‘ƒ‚ª‚ ‚Á‚½ŽžA”µ‚ª‚U‰H‚¢‚é‚ÆA
+•K‚¸‚P‚Â‚Ì‘ƒ‚É‚Í‚Q‰H“ü‚Á‚Ä‚µ‚Ü‚¤‚Æ‚¢‚¤Œ´—‚Å‚·B
+“–‚½‚è‘O‚ÆŒ¾‚¦‚Î“–‚½‚è‘O‚Å‚·‚ªATXID Õ“Ë‚Ì˜b‚ÅŒ¾‚¦‚ÎA
+2^256+1 ŒÂ–Ú‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª”­¶‚µ‚½uŠÔAŠmŽÀ‚É‚P‚Â‚Í
+Õ“Ë‚·‚é‚Æ‚¢‚¤‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+
+‚Ü‚ŸA‚»‚±‚Ü‚Å‘å—Ê‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª¶¬‚³‚ê‚é‚É‚Í
+‚Ü‚¾‚Ü‚¾ŽžŠÔ‚ª‚©‚©‚é‚½‚ß–â‘è‚É‚Í‚È‚ç‚È‚¢‚ÆŽv‚í‚ê‚Ü‚·B
+
+‚à‚¤‚P‚ÂAƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Æ‚¢‚¤‚à‚Ì‚ð‚²‘¶’m‚Å‚µ‚å‚¤‚©H
+’N‚Å‚à‚P‚ÂAŒˆ‚Ü‚Á‚Ä‚¢‚é’a¶“ú‚Æ‚¢‚¤‚à‚ÌA‚¤‚é‚¤”N‚ð–³Ž‹‚·‚ê‚Î
+365 ’Ê‚è‘¶Ý‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·B‚±‚ê‚ª‰¼‚É‹Ï“™‚ÈŠm—¦‚ÅŒˆ‚Ü‚Á‚Ä‚¢‚é‚Æ‚·‚é‚ÆA
+‚ ‚é“ú•t‚Ì’a¶“ú‚Å‚ ‚éŠm—¦‚Í 1/365 ‚µ‚©‚È‚¢‚Ì‚ÅA
+—á‚¦‚ÎuŠwZ‚ÌƒNƒ‰ƒX‚Å’a¶“ú‚ª“¯‚¶l‚ª‘¶Ý‚·‚évŠm—¦‚ÍA’¼Š´“I‚É‚Í‚©‚È‚è’á‚»‚¤‚Å‚·‚ªA
+ŽÀ‚Í‚Ù‚ñ‚Ì 23 l‚¢‚ê‚Î 50% ‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚Í‚¢‚é‰Â”\«‚ª‚ ‚èA
+70 l‚É‚È‚ê‚Î 99.9% ˆÈã‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚ª‚¢‚é‚Æ‚¢‚¤A
+’¼Š´‚É”½‚·‚éŽ–ŽÀ‚Å‚·B
+
+‚»‚¤Aƒ‰ƒ“ƒ_ƒ€‚È‚à‚Ì“¯Žm‚ÌÕ“ËŠm—¦‚ÍAŽÀ‚Í‚»‚ñ‚È‚É’á‚­‚Í‚È‚¢‚Ì‚Å‚·B
+
+== TXID ‚ÌÕ“ËŽ–—á‚Æ BIP-30
+
+‚³‚ÄAŠ÷ã‚Ì‹ó˜_‚Í’u‚¢‚Æ‚¢‚ÄA–{“–‚É TXID ‚ÍÕ“Ë‚·‚é‚Ì‚Å‚µ‚å‚¤‚©H
+
+‚±‚±‚Ü‚Å‚Ìà–¾‚Å‹C•t‚¢‚½•û‚à‚¢‚é‚ÆŽv‚¢‚Ü‚·‚ªA
+ŽÀ‚ÍŠm—¦˜_‚È‚ÇŠÖŒW‚È‚µ‚É TXID ‚ÍÕ“Ë‚µ‚Ü‚·B
+
+–â‘è‚Æ‚È‚é‚Ì‚ÍƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“Aƒ}ƒCƒjƒ“ƒO‚·‚él‚ªì¬‚·‚é
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Å‚·B‚±‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìo—Í‘¤‚Í•ñV‚ÌŽó‚¯Žæ‚èlŒöŠJŒ®A
+‚Â‚Ü‚èƒ}ƒCƒi[‚ÌƒAƒhƒŒƒX‚ÅA“ü—Í‘¤‚ÍƒGƒNƒXƒgƒ‰ Nonce ‚Å‚·B
+‚Æ‚¢‚¤‚±‚Æ‚ÍA“¯ˆê‚Ìl‚ªŒ@‚Á‚½ƒuƒƒbƒN‚ÅƒGƒNƒXƒgƒ‰ Nonce ‚É“¯‚¶’l‚ðÝ’è‚·‚ê‚Î
+lˆ×“I‚É TXID ‚ðÕ“Ë‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ä‚µ‚Ü‚¤‚Æ‚¢‚¤–â‘è‚ª‘¶Ý‚µ‚Ü‚·B
+
+‚±‚ê‚Í‘å–â‘è‚Æ‚¢‚¤‚±‚Æ‚Å’ñˆÄ‚³‚ê‚½‚Ì‚ª BIP-30 ‚Æ‚¢‚¤•¶‘‚ÅA
+—v–ñ‚·‚é‚Æu‰ß‹Ž‚ÉA–¢Žg—p‚Ìo—Í‚ÌŽc‚Á‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Æ TXID ‚ªÕ“Ë‚µ‚½ê‡A
+‚»‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Í‹‘â‚·‚év‚Æ‚¢‚¤“à—e‚Æ‚È‚Á‚Ä‚¢‚Ü‚·B
+
+’Pƒ‚Éu‰ß‹Ž‚É‘¶Ý‚µ‚½ TXID ‚ÍÄ—˜—p•s‰Â‚Æ‚·‚év‚Æ‚¢‚¤ˆÄ‚àŒŸ“¢‚³‚ê‚½
+‚æ‚¤‚Å‚·‚ªAŠù‚É¶¬‚³‚êŽg—p‚³‚ê‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìˆµ‚¢‚É¢‚é‚½‚ßA‹p‰º‚³‚ê‚½‚æ‚¤‚Å‚·B
+
+‰ß‹Ž‚Ì‚±‚Æ‚È‚Ì‚Å‰½‚Æ‚Å‚àŒ¾‚¦‚é‚Ì‚Å‚·‚ªA‚à‚µ‚±‚±‚ÅA
+uƒo[ƒWƒ‡ƒ“”Ô†‚ðã‚°‚ÄAˆÈ~‚ÍA‰ß‹Ž‚É‘¶Ý‚µ‚½ TXID ‚ðÄ—˜—p•s‰Â‚Æ‚·‚év‚Æ‚µ‚Ä
+‚¢‚Ä‚­‚ê‚ê‚ÎA–â‘è‚Í‚à‚Á‚ÆŠÈ’P‚É‚È‚Á‚½‚Ì‚É‚È‚Ÿc‚ÆŒã‰÷‚¹‚´‚é‚ð“¾‚Ü‚¹‚ñB
+
+== BIP-30 ‚©‚ç BIP-34 ‚Ö
+
+‚³‚ÄABIP-30 ‚Ì“±“ü‚É‚æ‚Á‚ÄAlˆ×“I‚ÉƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì
+TXID ‚ðÕ“Ë‚³‚ê‚é‚±‚Æ‚Í‚Å‚«‚È‚­‚È‚è‚Ü‚µ‚½B“¯Žž‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Å‚Ì
+Õ“Ë‚à–h‚®‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B”µƒm‘ƒŒ´—‚ÅÕ“Ë‚µ‚½ê‡‚Ícc
+‚»‚Ìê‡‚Í‚»‚ÌˆÃ†’Ê‰Ý‚ÍI—¹‚Å‚·B
+
+‚»‚µ‚ÄAŽc”O‚È‚ª‚ç‚±‚±‚Å˜b‚ÍI‚í‚è‚Ü‚¹‚ñB
+
+BIP-30 ‚Ìˆá”½ŒŸ¸‚Í‚Æ‚Ä‚àd‚¢‚Æ‚¢‚¤–â‘è‚ª‚ ‚è‚Ü‚·B
+u‰ß‹Ž‚Ì TXID ‚·‚×‚Ä‚Æ‚ÌÕ“ËŠm”F‚ð‚µAÕ“Ë‚µ‚Ä‚¢‚½ê‡A‚»‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚É
+–¢Žg—p‚Ìo—Í‚ª‚ ‚é‚©Šm”F‚·‚év‚Æ‚¢‚¤ˆ—‚ðs‚¤‚½‚ß‚Å‚·B
+bitcoin ‚Ì‚æ‚¤‚É 10 •ª‚É 1 ƒuƒƒbƒN‚È‚ç‚»‚ñ‚È‚É–â‘è‚É‚È‚ç‚È‚¢‚ÆŽv‚¢‚«‚âA
+V‹K‚ÉŽQ“ü‚µ‚½ƒm[ƒh‚ª‘cæƒuƒƒbƒN‚©‚ç‡‚É“¯Šú‚ð‚·‚éê‡‚È‚ÇA
+ˆÈ‘O‚Æ‚Í”äŠr‚É‚È‚ç‚È‚¢‚Ù‚Ç’x‚­‚È‚Á‚Ä‚µ‚Ü‚Á‚½‚Ì‚Å‚·B
+
+‚»‚±‚Å‚»‚Ì–â‘è‚ð‰ðŒˆ‚µ‚æ‚¤‚Æ’ñˆÄ‚³‚ê‚½‚Ì‚ª BIP-34 ‚Å‚·B
+
+uƒGƒNƒXƒgƒ‰ Nonce —Ìˆæ‚ÍA0x03 ‚ÅŠJŽn‚µ‚ÄA‘±‚¯‚Ä
+‚»‚ÌƒuƒƒbƒN‚Ì‚‚³‚ðƒŠƒgƒ‹ƒGƒ“ƒfƒBƒAƒ“‚Å‹Lq‚·‚é‚±‚Æv
+ƒuƒƒbƒN‚Ì‚‚³‚ÍˆêˆÓ‚Å‚ ‚é‚½‚ßA‚±‚Ìƒ‹[ƒ‹‚ð“±“ü‚·‚é‚±‚Æ‚ÅA
+ƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ““¯Žm‚ÌÕ“Ë‚Í”­¶‚µ‚È‚­‚È‚é‚Ì‚Å‚Í‚È‚¢‚©A
+‚Æ‚¢‚¤’ñˆÄ‚Å‚·B
+
+ƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Ì‚±‚Æ‚ð‚·‚Á‚©‚è–Y‚ê‚Ä‚µ‚Ü‚¦‚ÎA
+‚Æ‚è‚ ‚¦‚¸ BIP-34 “±“üˆÈ~‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ““¯Žm‚ÌÕ“ËŒŸ¸‚Í
+•s—v‚É‚È‚è‚Ü‚·B‚Æ‚¢‚¤‚í‚¯‚ÅAd‚­‚Ä–â‘è‚É‚È‚Á‚Ä‚¢‚½ BIP-30 ƒ`ƒFƒbƒN‚Í
+È—ª‚³‚ê‚é‚±‚Æ‚É‚È‚è‚Ü‚µ‚½B
+
+ƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚ÍH‚Ë‚¥Aƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚É‚æ‚éÕ“Ë‚ÍH
+
+== BIP-34 ˆÈ‘O‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Æ‚ÌÕ“Ë–â‘è
+
+‚³‚ÄA‚»‚µ‚Ä‚³‚ç‚ÉŽc”O‚È‚±‚Æ‚ÉA‚±‚ê‚Å‚à‚Ü‚¾˜b‚ªI‚í‚ç‚È‚¢‚Ì‚ªA
+—ðŽj‚Ìˆê”ÔŒÃ‚¢ bitcoin ‚ÌˆÅ‚Ì[‚³‚ð•¨Œê‚Á‚Ä‚¢‚Ü‚·B
+
+BIP-34 “±“üˆÈ~‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ““¯Žm‚ÍÕ“Ë‚µ‚È‚¢i‚±‚Æ‚É‚È‚Á‚Ä‚¢‚Ü‚·j‚ªA
+BIP-34 “±“üˆÈ‘O‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÆA“±“üˆÈ~‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª
+Õ“Ë‚·‚é‰Â”\«‚ªŽw“E‚³‚ê‚Ü‚µ‚½B
+
+‚Â‚Ü‚èA‰½‚àl‚¦‚¸‚ÉƒGƒNƒXƒgƒ‰ Nonce ‚ðÝ’è‚µ‚Ä‚¢‚½Žž‘ã‚ÉA
+ƒGƒNƒXƒgƒ‰ Nonce ‚ª‹ô‘R 0x03 ‚ÅŽn‚Ü‚Á‚Ä‚¢‚½ƒP[ƒX‚Ì‘Î‰ž‚Å‚·B
+
+‚±‚ê‚É‚Â‚¢‚Ä‚ÍAbitcoin ‚Ì validation.cpp ‚ÌƒRƒƒ“ƒg‚ÅÚ×‚ÉŒŸ“¢‚³‚ê‚Ä‚¢‚ÄA
+—v–ñ‚·‚é‚ÆABIP-34 “±“üˆÈ‘O‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚·‚×‚Ä‚ðƒ`ƒFƒbƒN‚µ‚½Œ‹‰ÊA
+ƒGƒNƒXƒgƒ‰ Nonce ‚ª 0x03 ‚ÅŽn‚Ü‚é‚à‚Ì‚Í•¡”‚ ‚Á‚½A‚ÆB
+
+‚»‚µ‚ÄA‚»‚ÌŒã‚ë‚ðƒuƒƒbƒN‚‚Æ‚µ‚Ä‰ðŽß‚µ‚½ê‡A‚Â‚Ü‚èÕ“Ë‚Ì‰Â”\«‚ª‚ ‚é
+ƒuƒƒbƒN‚ÍA¬‚³‚¢•û‚©‚ç‚R‚Â•À‚×‚é‚Æ 209,921, 490,897, 1,983,702B
+
+‚Ü‚¸ 209,921 ƒuƒƒbƒN‚Í BIP-34 “K—pˆÈ‘O‚Ì‚à‚Ì‚È‚Ì‚ÅA
+BIP-34 ‚É‚æ‚éƒ`ƒFƒbƒNÈ—ª‚ªs‚í‚ê‚È‚¢‚½‚ßA‰e‹¿‚Í‚È‚¢‚ÆB
+
+ŽŸ‚ÉA490,897 ‚Å‚·‚ªAƒ\[ƒXƒR[ƒh‚ÌƒRƒƒ“ƒgŽ·•MŽž“_‚Å‚Í
+uŽc‚è–ñ2TŠÔ‚µ‚©‚È‚¢‚Ì‚ÅA’ˆÓ[‚­Œ©Žç‚Á‚Ä‘Î‰ž‚ðŒŸ“¢‚·‚é•K—v‚ª‚ ‚éBv
+‚ÆƒRƒƒ“ƒg‚É‘‚¢‚Ä‚ ‚è‚Ü‚·B‚¦A‰½A‚»‚Ì_—Š‚ÝH
+
+‚Ü‚ŸAK‰^‚È‚±‚Æ‚É 490,897 ‚Å‚Íƒ}ƒCƒi[‚ÌƒAƒhƒŒƒX‚ªˆÙ‚È‚Á‚½‚½‚ßA
+Õ“Ë‚Í”­¶‚µ‚È‚©‚Á‚½‚æ‚¤‚Å‚·B
+
+‚»‚µ‚ÄŽŸA1,983,702 ƒuƒƒbƒN‚É‚Â‚¢‚Ä‚ÍAƒ\[ƒXƒR[ƒh‚ÌƒRƒƒ“ƒg‚É‚±‚¤‚ ‚è‚Ü‚·B
+u‚±‚ÌƒuƒƒbƒN‚É“ž’B‚·‚é‚Ü‚Å‚ ‚Æ25”N’ö“x‚ ‚é‚Ì‚ÅA‚»‚ê‚ðŠˆ—p‚µ‚ÄA
+«—ˆ“I‚É BIP-34 ‚É‘ã‚í‚éV‚½‚È’ñˆÄ‚Ì“¯ˆÓ‚ð“¾‚é•K—v‚ª‚ ‚évB
+‚¨A‚¨[B–â‘è‚Ìæ‘—‚è—ˆ‚Ü‚µ‚½BY2K –â‘è‚Á‚ÄŠo‚¦‚Ä‚Ü‚·‚©H
+2038 ”N–â‘è‚Æ‚©AŠF‚³‚ñ‚²‘¶’m‚Å‚·‚æ‚ËH
+
+‚»‚µ‚ÄAŠ®‘S‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Ì‚±‚Æ–Y‚ê‚Ä‚Ü‚¹‚ñ‚©H
+
+== ‚¨‚í‚è‚É
+
+‚¢‚©‚ª‚Å‚µ‚½‚Å‚µ‚å‚¤‚©H
+‚±‚Ì‹LŽ–‚ð“Ç‚ñ‚ÅAŒ»ó‚ÌˆÃ†’Ê‰Ý‚ª‚¢‚©‚É‚¤‚Á‚·‚¢‚¤‚Á‚·‚¢•X‚Ìã‚Å¬‚è—§‚Á‚Ä‚¢‚é‚©A
+”FŽ¯‚µ‚Ä‚¢‚½‚¾‚¯‚½‚Å‚µ‚å‚¤‚©H‚»‚µ‚ÄA‚±‚Ì–â‘è‚Ì‘Î‰ž‚É 0.5 lŒŽ‹ß‚­Á–Õ‚µ‚½
+Ž„‚Ì“{‚è‚Æ¦‚Ý‚Æƒcƒ‰‚Ý‚ªA­‚µ‚Å‚à“`‚í‚ê‚ÎK‚¢‚Å‚·B
