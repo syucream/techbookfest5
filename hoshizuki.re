@@ -190,7 +190,7 @@ bitcoin ‚Ì‚æ‚¤‚É 10 •ª‚É 1 ƒuƒƒbƒN‚È‚ç‚»‚ñ‚È‚É–â‘è‚É‚È‚ç‚È‚¢‚ÆŽv‚¢‚«‚âA
 
 ‚»‚±‚Å‚»‚Ì–â‘è‚ð‰ðŒˆ‚µ‚æ‚¤‚Æ’ñˆÄ‚³‚ê‚½‚Ì‚ª BIP-34 ‚Å‚·B
 
-uƒGƒNƒXƒgƒ‰ Nonce —Ìˆæ‚ÍA0x03 ‚ÅŠJŽn‚µ‚ÄA‘±‚¯‚Ä
+uƒGƒNƒXƒgƒ‰ Nonce —Ìˆæ‚ÍA03 ‚ÅŠJŽn‚µ‚ÄA‘±‚¯‚Ä
 ‚»‚ÌƒuƒƒbƒN‚Ì‚‚³‚ðƒŠƒgƒ‹ƒGƒ“ƒfƒBƒAƒ“‚Å‹Lq‚·‚é‚±‚Æv
 ƒuƒƒbƒN‚Ì‚‚³‚ÍˆêˆÓ‚Å‚ ‚é‚½‚ßA‚±‚Ìƒ‹[ƒ‹‚ð“±“ü‚·‚é‚±‚Æ‚ÅA
 ƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ““¯Žm‚ÌÕ“Ë‚Í”­¶‚µ‚È‚­‚È‚é‚Ì‚Å‚Í‚È‚¢‚©A
@@ -213,11 +213,11 @@ BIP-34 “±“üˆÈ‘O‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÆA“±“üˆÈ~‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒ
 Õ“Ë‚·‚é‰Â”\«‚ªŽw“E‚³‚ê‚Ü‚µ‚½B
 
 ‚Â‚Ü‚èA‰½‚àl‚¦‚¸‚ÉƒGƒNƒXƒgƒ‰ Nonce ‚ðÝ’è‚µ‚Ä‚¢‚½Žž‘ã‚ÉA
-ƒGƒNƒXƒgƒ‰ Nonce ‚ª‹ô‘R 0x03 ‚ÅŽn‚Ü‚Á‚Ä‚¢‚½ƒP[ƒX‚Ì‘Î‰ž‚Å‚·B
+ƒGƒNƒXƒgƒ‰ Nonce ‚ª‹ô‘R 03 ‚ÅŽn‚Ü‚Á‚Ä‚¢‚½ƒP[ƒX‚Ì‘Î‰ž‚Å‚·B
 
 ‚±‚ê‚É‚Â‚¢‚Ä‚ÍAbitcoin ‚Ì validation.cpp ‚ÌƒRƒƒ“ƒg‚ÅÚ×‚ÉŒŸ“¢‚³‚ê‚Ä‚¢‚ÄA
 —v–ñ‚·‚é‚ÆABIP-34 “±“üˆÈ‘O‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚·‚×‚Ä‚ðƒ`ƒFƒbƒN‚µ‚½Œ‹‰ÊA
-ƒGƒNƒXƒgƒ‰ Nonce ‚ª 0x03 ‚ÅŽn‚Ü‚é‚à‚Ì‚Í•¡”‚ ‚Á‚½A‚ÆB
+ƒGƒNƒXƒgƒ‰ Nonce ‚ª 03 ‚ÅŽn‚Ü‚é‚à‚Ì‚Í•¡”‚ ‚Á‚½A‚ÆB
 
 ‚»‚µ‚ÄA‚»‚ÌŒã‚ë‚ðƒuƒƒbƒN‚‚Æ‚µ‚Ä‰ðŽß‚µ‚½ê‡A‚Â‚Ü‚èÕ“Ë‚Ì‰Â”\«‚ª‚ ‚é
 ƒuƒƒbƒN‚ÍA¬‚³‚¢•û‚©‚ç‚R‚Â•À‚×‚é‚Æ 209,921, 490,897, 1,983,702B
