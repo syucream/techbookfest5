@@ -142,8 +142,8 @@ ASIC ƒ}ƒCƒjƒ“ƒO‘•’u‚È‚Ç‚ÅA4GH/s ‚ð’´‚¦‚éƒVƒXƒeƒ€‚Å‚Í•K‚¸“±“ü‚³‚ê‚Ä‚¢‚éŽd‘g‚Ý‚Å‚
 366 ’Ê‚è‘¶Ý‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·B‚±‚ê‚ª‰¼‚É‹Ï“™‚ÈŠm—¦‚ÅŒˆ‚Ü‚Á‚Ä‚¢‚é‚Æ‚·‚é‚ÆA
 ‚ ‚é“ú•t‚Ì’a¶“ú‚Å‚ ‚éŠm—¦‚Í 1/366 ‚µ‚©‚È‚¢‚Ì‚ÅA
 —á‚¦‚ÎuŠwZ‚ÌƒNƒ‰ƒX‚Å’a¶“ú‚ª“¯‚¶l‚ª‘¶Ý‚·‚évŠm—¦‚ÍA’¼Š´“I‚É‚Í‚©‚È‚è’á‚»‚¤‚Å‚·‚ªA
-ŽÀ‚Í‚Ù‚ñ‚Ì 23 l‚¢‚ê‚Î 50% ‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚Í‚¢‚é‰Â”\«‚ª‚ ‚èA
-70 l‚É‚È‚ê‚Î 99.9% ˆÈã‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚ª‚¢‚é‚Æ‚¢‚¤A
+ŽÀ‚Í‚Ù‚ñ‚Ì 23 l‚¢‚ê‚Î 50“ ‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚Í‚¢‚é‰Â”\«‚ª‚ ‚èA
+70 l‚É‚È‚ê‚Î 99.9“ ˆÈã‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚ª‚¢‚é‚Æ‚¢‚¤A
 ’¼Š´‚É”½‚·‚éŽ–ŽÀ‚Å‚·B
 
 ‚»‚¤Aƒ‰ƒ“ƒ_ƒ€‚È‚à‚Ì“¯Žm‚ÌÕ“ËŠm—¦‚ÍAŽÀ‚Í‚»‚ñ‚È‚É’á‚­‚Í‚È‚¢‚Ì‚Å‚·B
@@ -267,12 +267,12 @@ bitcoin ‚©‚çƒ\[ƒXƒR[ƒh‚ð”h¶‚µ‚Ä‚Å‚«‚½ƒAƒ‹ƒgƒRƒCƒ“‚Í‚Ç‚¤‚Å‚µ‚å‚¤‚©H
 ‚Æ‚±‚ë‚ÅAŽÀÛ‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚É‚æ‚Á‚ÄÕ“Ë‚ª‹N‚«‚éŠm—¦‚Í‚Ç‚Ì’ö“x‚Å‚µ‚å‚¤‚©H
 
 ŽÀÛ‚ÉŒvŽZ‚µ‚Ä‚Ý‚é‚Æ•ª‚©‚è‚Ü‚·‚ªAƒuƒƒbƒNƒ`ƒFƒCƒ““à‚Ì‘ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“”‚ª
-4.8 * 10^37 ‚ð’´‚¦‚½‚ ‚½‚è‚ÅA–ñ1% ‚ÌŠm—¦‚ÅÕ“Ë‚ª”­¶‚µ‚Ü‚·B
+4.8 * 10^37 ‚ð’´‚¦‚½‚ ‚½‚è‚ÅA–ñ1“ ‚ÌŠm—¦‚ÅÕ“Ë‚ª”­¶‚µ‚Ü‚·B
 2018/05/29 Œ»Ý‚Ì bitcoin ‚Å‚Íˆê“ú“–‚½‚è–ñ19.7–œƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª¶¬‚³‚ê‚Ä‚¢‚é‚½‚ßA
-Š„‚é‚Æ–ñ 6.6 * 10^29 ”N‚ÅÕ“ËŠm—¦‚ª 1% ‚ð’´‚¦‚Ü‚·B
+Š„‚é‚Æ–ñ 6.6 * 10^29 ”N‚ÅÕ“ËŠm—¦‚ª 1“ ‚ð’´‚¦‚Ü‚·B
 
 ‚½‚¾‚µA‚±‚ê‚Í‚ ‚­‚Ü‚Å‚àuŠm—¦v‚Å‚·B
-0.000005% ‚µ‚©“–‚½‚ç‚È‚¢”N––ƒWƒƒƒ“ƒ{•ó‚­‚¶‚P“™‚Å‚àA
+0.000005“ ‚µ‚©“–‚½‚ç‚È‚¢”N––ƒWƒƒƒ“ƒ{•ó‚­‚¶‚P“™‚Å‚àA
 “–‚½‚é‚Æ‚«‚É‚Í“–‚½‚è‚Ü‚·B
 
 ‚»‚ê‚ªŽŸ‚ÌƒuƒƒbƒN‚È‚Ì‚©A100”NŒã‚ÌƒuƒƒbƒN‚È‚Ì‚©‚ÍA‚»‚ê‚±‚»A
