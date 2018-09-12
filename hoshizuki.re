@@ -125,7 +125,7 @@ ASIC ƒ}ƒCƒjƒ“ƒO‘•’u‚È‚Ç‚ÅA4GH/s ‚ð’´‚¦‚éƒVƒXƒeƒ€‚Å‚Í•K‚¸“±“ü‚³‚ê‚Ä‚¢‚éŽd‘g‚Ý‚Å‚
 ‚³‚ÄA­‚µ‘O‚É TXID ‚ÍÕ“Ë‚Ì‰Â”\«‚ª‚ ‚é‚Æ‚¨˜b‚µ‚µ‚Ü‚µ‚½B
 ‚»‚ê‚Íˆê‘Ì‚Ç‚Ì’ö“x‚ÌŠm—¦‚Å‚µ‚å‚¤‚©H
 
-‰¼’è‚Æ‚µ‚ÄA256bit ‚ÌƒnƒbƒVƒ…’l‚Í‚·‚×‚Ä‚Ì’l‚ª“¯‚¶Šm—¦‚ÅoŒ»‚·‚éiˆê—l•ª•zj‚à‚Ì‚Æ‚µ‚Ü‚·B
+‰¼’è‚Æ‚µ‚ÄA256bit ‚ÌƒnƒbƒVƒ…’l‚Í‚·‚×‚Ä‚Ì’l‚ª“¯‚¶Šm—¦‚ÅoŒ»‚·‚éiˆê—l•ª•z‚·‚éj‚à‚Ì‚Æ‚µ‚Ü‚·B
 
 ”µƒm‘ƒŒ´—‚Æ‚¢‚¤‚à‚Ì‚ð‚²‘¶‚¶‚Å‚µ‚å‚¤‚©H
 —á‚¦‚Î‚T‚Â‚Ì”µƒm‘ƒ‚ª‚ ‚Á‚½ŽžA”µ‚ª‚U‰H‚¢‚é‚ÆA
@@ -138,9 +138,9 @@ ASIC ƒ}ƒCƒjƒ“ƒO‘•’u‚È‚Ç‚ÅA4GH/s ‚ð’´‚¦‚éƒVƒXƒeƒ€‚Å‚Í•K‚¸“±“ü‚³‚ê‚Ä‚¢‚éŽd‘g‚Ý‚Å‚
 ‚Ü‚¾‚Ü‚¾ŽžŠÔ‚ª‚©‚©‚é‚½‚ß–â‘è‚É‚Í‚È‚ç‚È‚¢‚ÆŽv‚í‚ê‚Ü‚·B
 
 ‚à‚¤‚P‚ÂAƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Æ‚¢‚¤‚à‚Ì‚ð‚²‘¶’m‚Å‚µ‚å‚¤‚©H
-’N‚Å‚à‚P‚ÂAŒˆ‚Ü‚Á‚Ä‚¢‚é’a¶“ú‚Æ‚¢‚¤‚à‚ÌA‚¤‚é‚¤”N‚ð–³Ž‹‚·‚ê‚Î
-365 ’Ê‚è‘¶Ý‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·B‚±‚ê‚ª‰¼‚É‹Ï“™‚ÈŠm—¦‚ÅŒˆ‚Ü‚Á‚Ä‚¢‚é‚Æ‚·‚é‚ÆA
-‚ ‚é“ú•t‚Ì’a¶“ú‚Å‚ ‚éŠm—¦‚Í 1/365 ‚µ‚©‚È‚¢‚Ì‚ÅA
+’N‚Å‚à‚P‚ÂAŒˆ‚Ü‚Á‚Ä‚¢‚é’a¶“ú‚Æ‚¢‚¤‚à‚ÌA‚¤‚é‚¤”N‚ðl—¶‚µ‚Ä‚à
+366 ’Ê‚è‘¶Ý‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·B‚±‚ê‚ª‰¼‚É‹Ï“™‚ÈŠm—¦‚ÅŒˆ‚Ü‚Á‚Ä‚¢‚é‚Æ‚·‚é‚ÆA
+‚ ‚é“ú•t‚Ì’a¶“ú‚Å‚ ‚éŠm—¦‚Í 1/366 ‚µ‚©‚È‚¢‚Ì‚ÅA
 —á‚¦‚ÎuŠwZ‚ÌƒNƒ‰ƒX‚Å’a¶“ú‚ª“¯‚¶l‚ª‘¶Ý‚·‚évŠm—¦‚ÍA’¼Š´“I‚É‚Í‚©‚È‚è’á‚»‚¤‚Å‚·‚ªA
 ŽÀ‚Í‚Ù‚ñ‚Ì 23 l‚¢‚ê‚Î 50% ‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚Í‚¢‚é‰Â”\«‚ª‚ ‚èA
 70 l‚É‚È‚ê‚Î 99.9% ˆÈã‚ÌŠm—¦‚Å’a¶“ú‚ª“¯‚¶l‚ª‚¢‚é‚Æ‚¢‚¤A
@@ -159,7 +159,7 @@ ASIC ƒ}ƒCƒjƒ“ƒO‘•’u‚È‚Ç‚ÅA4GH/s ‚ð’´‚¦‚éƒVƒXƒeƒ€‚Å‚Í•K‚¸“±“ü‚³‚ê‚Ä‚¢‚éŽd‘g‚Ý‚Å‚
 ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Å‚·B‚±‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìo—Í‘¤‚Í•ñV‚ÌŽó‚¯Žæ‚èlŒöŠJŒ®A
 ‚Â‚Ü‚èƒ}ƒCƒi[‚ÌƒAƒhƒŒƒX‚ÅA“ü—Í‘¤‚ÍƒGƒNƒXƒgƒ‰ Nonce ‚Å‚·B
 ‚Æ‚¢‚¤‚±‚Æ‚ÍA“¯ˆê‚Ìl‚ªŒ@‚Á‚½ƒuƒƒbƒN‚ÅƒGƒNƒXƒgƒ‰ Nonce ‚É“¯‚¶’l‚ðÝ’è‚·‚ê‚Î
-lˆ×“I‚É TXID ‚ðÕ“Ë‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ä‚µ‚Ü‚¤‚Æ‚¢‚¤–â‘è‚ª‘¶Ý‚µ‚Ü‚·B
+ˆÓ}“I‚É TXID ‚ðÕ“Ë‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ä‚µ‚Ü‚¤‚Æ‚¢‚¤–â‘è‚ª‘¶Ý‚µ‚Ü‚·B
 
 ‚±‚ê‚Í‘å–â‘è‚Æ‚¢‚¤‚±‚Æ‚Å’ñˆÄ‚³‚ê‚½‚Ì‚ª BIP-30 ‚Æ‚¢‚¤•¶‘‚ÅA
 —v–ñ‚·‚é‚Æu‰ß‹Ž‚ÉA–¢Žg—p‚Ìo—Í‚ÌŽc‚Á‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Æ TXID ‚ªÕ“Ë‚µ‚½ê‡A
@@ -174,8 +174,8 @@ ASIC ƒ}ƒCƒjƒ“ƒO‘•’u‚È‚Ç‚ÅA4GH/s ‚ð’´‚¦‚éƒVƒXƒeƒ€‚Å‚Í•K‚¸“±“ü‚³‚ê‚Ä‚¢‚éŽd‘g‚Ý‚Å‚
 
 == BIP-30 ‚©‚ç BIP-34 ‚Ö
 
-‚³‚ÄABIP-30 ‚Ì“±“ü‚É‚æ‚Á‚ÄAlˆ×“I‚ÉƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì
-TXID ‚ðÕ“Ë‚³‚ê‚é‚±‚Æ‚Í‚Å‚«‚È‚­‚È‚è‚Ü‚µ‚½B“¯Žž‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Å‚Ì
+‚³‚ÄABIP-30 ‚Ì“±“ü‚É‚æ‚Á‚ÄAˆÓ}“I‚ÉƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì
+TXID ‚ðÕ“Ë‚³‚¹‚é‚±‚Æ‚Í‚Å‚«‚È‚­‚È‚è‚Ü‚µ‚½B“¯Žž‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Å‚Ì
 Õ“Ë‚à–h‚®‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B”µƒm‘ƒŒ´—‚ÅÕ“Ë‚µ‚½ê‡‚Ícc
 ‚»‚Ìê‡‚Í‚»‚ÌˆÃ†’Ê‰Ý‚ÍI—¹‚Å‚·B
 
@@ -185,7 +185,7 @@ BIP-30 ‚Ìˆá”½ŒŸ¸‚Í‚Æ‚Ä‚àd‚¢‚Æ‚¢‚¤–â‘è‚ª‚ ‚è‚Ü‚·B
 u‰ß‹Ž‚Ì TXID ‚·‚×‚Ä‚Æ‚ÌÕ“ËŠm”F‚ð‚µAÕ“Ë‚µ‚Ä‚¢‚½ê‡A‚»‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚É
 –¢Žg—p‚Ìo—Í‚ª‚ ‚é‚©Šm”F‚·‚év‚Æ‚¢‚¤ˆ—‚ðs‚¤‚½‚ß‚Å‚·B
 bitcoin ‚Ì‚æ‚¤‚É 10 •ª‚É 1 ƒuƒƒbƒN‚È‚ç‚»‚ñ‚È‚É–â‘è‚É‚È‚ç‚È‚¢‚ÆŽv‚¢‚«‚âA
-V‹K‚ÉŽQ“ü‚µ‚½ƒm[ƒh‚ª‘cæƒuƒƒbƒN‚©‚ç‡‚É“¯Šú‚ð‚·‚éê‡‚È‚ÇA
+V‹K‚ÉŽQ“ü‚µ‚½ƒm[ƒh‚ª‘cæƒuƒƒbƒN‚©‚çˆê‹C‚É“¯Šú‚ð‚·‚éê‡‚È‚ÇA
 ˆÈ‘O‚Æ‚Í”äŠr‚É‚È‚ç‚È‚¢‚Ù‚Ç’x‚­‚È‚Á‚Ä‚µ‚Ü‚Á‚½‚Ì‚Å‚·B
 
 ‚»‚±‚Å‚»‚Ì–â‘è‚ð‰ðŒˆ‚µ‚æ‚¤‚Æ’ñˆÄ‚³‚ê‚½‚Ì‚ª BIP-34 ‚Å‚·B
@@ -223,11 +223,11 @@ BIP-34 “±“üˆÈ‘O‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÆA“±“üˆÈ~‚ÌƒRƒCƒ“ƒx[ƒXƒgƒ‰ƒ“ƒUƒ
 ƒuƒƒbƒN‚ÍA¬‚³‚¢•û‚©‚ç‚R‚Â•À‚×‚é‚Æ 209,921, 490,897, 1,983,702B
 
 ‚Ü‚¸ 209,921 ƒuƒƒbƒN‚Í BIP-34 “K—pˆÈ‘O‚Ì‚à‚Ì‚È‚Ì‚ÅA
-BIP-34 ‚É‚æ‚éƒ`ƒFƒbƒNÈ—ª‚ªs‚í‚ê‚È‚¢‚½‚ßA‰e‹¿‚Í‚È‚¢‚ÆB
+BIP-34 ‚É‚æ‚éƒ`ƒFƒbƒNÈ—ª‚ªs‚í‚ê‚¸“KØ‚ÉŒŸ¸‚³‚ê‚é‚½‚ßA‰e‹¿‚Í‚È‚¢‚ÆB
 
 ŽŸ‚ÉA490,897 ‚Å‚·‚ªAƒ\[ƒXƒR[ƒh‚ÌƒRƒƒ“ƒgŽ·•MŽž“_‚Å‚Í
 uŽc‚è–ñ2TŠÔ‚µ‚©‚È‚¢‚Ì‚ÅA’ˆÓ[‚­Œ©Žç‚Á‚Ä‘Î‰ž‚ðŒŸ“¢‚·‚é•K—v‚ª‚ ‚éBv
-‚ÆƒRƒƒ“ƒg‚É‘‚¢‚Ä‚ ‚è‚Ü‚·B‚¦A‰½A‚»‚Ì_—Š‚ÝH
+‚ÆƒRƒƒ“ƒg‚É‘‚¢‚Ä‚ ‚è‚Ü‚·B‚¦A‰½A_—Š‚ÝH
 
 ‚Ü‚ŸAK‰^‚È‚±‚Æ‚É 490,897 ‚Å‚Íƒ}ƒCƒi[‚ÌƒAƒhƒŒƒX‚ªˆÙ‚È‚Á‚½‚½‚ßA
 Õ“Ë‚Í”­¶‚µ‚È‚©‚Á‚½‚æ‚¤‚Å‚·B
@@ -239,6 +239,44 @@ BIP-34 ‚É‚æ‚éƒ`ƒFƒbƒNÈ—ª‚ªs‚í‚ê‚È‚¢‚½‚ßA‰e‹¿‚Í‚È‚¢‚ÆB
 2038 ”N–â‘è‚Æ‚©AŠF‚³‚ñ‚²‘¶’m‚Å‚·‚æ‚ËH
 
 ‚»‚µ‚ÄAŠ®‘S‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Ì‚±‚Æ–Y‚ê‚Ä‚Ü‚¹‚ñ‚©H
+
+Žb’è‘[’u‚Æ‚µ‚ÄAbitcoin ‚Å‚ÍABIP-34 ‚Ì“K—p‚Í 1,983,702 ƒuƒƒbƒNˆÈ‘O‚Ü‚ÅA
+‚Æ‚¢‚¤ŽÀ‘•‚É‚È‚Á‚Ä‚¢‚é‚½‚ßAŒ»ó‚Ì‚Ü‚Üi‚Þ‚ÆA‚ ‚é“ú“Ë‘R BIP-30 ƒ`ƒFƒbƒN‚ª
+—LŒø‰»‚³‚ê‚ÄAƒuƒƒbƒN“¯Šú‚ªd‚­‚È‚éA‚Æ‚¢‚¤Œ»Û‚ª”­¶‚µ‚Ü‚·B
+
+== BIP-30,34 ‚ÆŠeŽíƒAƒ‹ƒgƒRƒCƒ“
+
+‚±‚±‚Ü‚Å bitcoin ‚Ì‚¨˜b‚ð‚µ‚Ä‚«‚Ü‚µ‚½‚ªA
+bitcoin ‚©‚çƒ\[ƒXƒR[ƒh‚ð”h¶‚µ‚Ä‚Å‚«‚½ƒAƒ‹ƒgƒRƒCƒ“‚Í‚Ç‚¤‚Å‚µ‚å‚¤‚©H
+
+—á‚¦‚Î monacoin ‚ð—á‚É‹“‚°‚é‚ÆABIP-34 “K—pŒã‚Ìƒ\[ƒXƒR[ƒh‚©‚ç
+”h¶‚µ‚ÄŠJ”­‚ªs‚í‚ê‚Ä‚¢‚Ü‚·B
+
+‚Â‚Ü‚èABIP-34 ‚É‚æ‚Á‚ÄˆÓ}“I‚È TXID Õ“Ë‚Í–h‚ª‚ê‚Ä‚¢‚Ü‚·‚ªA
+“¯Žž‚É BIP-30 ƒ`ƒFƒbƒN‚ÌÈ—ª‚à“±“ü‚³‚ê‚Ä‚¢‚Ü‚·B
+
+‚µ‚©‚àAbitcoin ‚ÆˆÙ‚È‚èABIP-34 “±“üˆÈ‘O‚Ìƒf[ƒ^‚ª‘¶Ý‚µ‚È‚¢‚½‚ßA
+ŒÃ‚¢ƒf[ƒ^‚Æ‚ÌÕ“Ë‚ðl—¶‚·‚é•K—v‚à‚ ‚è‚Ü‚¹‚ñB
+‚»‚Ì‚½‚ßAmonacoin ‚Ìê‡‚ÍŠúŒÀ‚È‚­ BIP-30 ƒ`ƒFƒbƒN‚ð–³Œø‰»‚µ‚Ä‚¢‚Ü‚·B
+
+‚±‚ê‚ªˆÓ–¡‚·‚é‚±‚Æ‚Í–¾”’‚ÅAƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚Å‹ô‘RÕ“Ë‚ª”­¶‚µ‚½ê‡‚É
+‘Î‚µ‚Ä‚ÍŠ®‘S‚É–³—Í‚Å‚ ‚éA‚Æ‚¢‚¤‚±‚Æ‚Å‚·B
+
+== ŽÀÛ‚ÌÕ“Ë”­¶Šm—¦
+
+‚Æ‚±‚ë‚ÅAŽÀÛ‚Éƒo[ƒXƒfƒCƒpƒ‰ƒhƒbƒNƒX‚É‚æ‚Á‚ÄÕ“Ë‚ª‹N‚«‚éŠm—¦‚Í‚Ç‚Ì’ö“x‚Å‚µ‚å‚¤‚©H
+
+ŽÀÛ‚ÉŒvŽZ‚µ‚Ä‚Ý‚é‚Æ•ª‚©‚è‚Ü‚·‚ªAƒuƒƒbƒNƒ`ƒFƒCƒ““à‚Ì‘ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“”‚ª
+4.8 * 10^37 ‚ð’´‚¦‚½‚ ‚½‚è‚ÅA–ñ1% ‚ÌŠm—¦‚ÅÕ“Ë‚ª”­¶‚µ‚Ü‚·B
+2018/05/29 Œ»Ý‚Ì bitcoin ‚Å‚Íˆê“ú“–‚½‚è–ñ19.7–œƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª¶¬‚³‚ê‚Ä‚¢‚é‚½‚ßA
+Š„‚é‚Æ–ñ 6.6 * 10^29 ”N‚ÅÕ“ËŠm—¦‚ª 1% ‚ð’´‚¦‚Ü‚·B
+
+‚½‚¾‚µA‚±‚ê‚Í‚ ‚­‚Ü‚Å‚àuŠm—¦v‚Å‚·B
+0.000005% ‚µ‚©“–‚½‚ç‚È‚¢”N––ƒWƒƒƒ“ƒ{•ó‚­‚¶‚P“™‚Å‚àA
+“–‚½‚é‚Æ‚«‚É‚Í“–‚½‚è‚Ü‚·B
+
+‚»‚ê‚ªŽŸ‚ÌƒuƒƒbƒN‚È‚Ì‚©A100”NŒã‚ÌƒuƒƒbƒN‚È‚Ì‚©‚ÍA‚»‚ê‚±‚»A
+_‚Ì‚Ý‚¼’m‚éA‚Æ‚¢‚Á‚½‚Æ‚±‚ë‚Å‚µ‚å‚¤‚©B
 
 == ‚¨‚í‚è‚É
 
