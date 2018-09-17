@@ -67,7 +67,13 @@ Envoy の担う機能はアプリケーションとは別コンテナで動作�
 @<href>{https://istio.io/, Istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行うソフトウェアです。
 現状だとターゲットとするインフラとして Kubernetes を前提にしています。
 
-ほげほげ〜〜
+Istio では Envoy を拡張一部拡張して Data Plane を実現するのに使います。
+Envoy は Kubernetes でデプロイする Pod 全てに Sidecar として導入され、マイクロサービス間の通信時に Sidecar の Envoy 同士が通信処理を仲介するような動作になります。
+マイクロサービスの世界では Pod の生き死にが頻繁に起こり、 Envoy のルーティングの設定を動的に更新できなければなりません。
+Istio ではこの設定変更を実現するために Pilot というコンポーネントを持ち、 Envoy に対するルーティングルールを設定して Envoy に伝えるようにしています。
+
+本記事では Envoy に主眼を起きたいため Istio については深く触れません。
+詳しく知りたい方は先述の公式ページのリンクを辿ったり、実際の導入事例などを探してみることをおすすめいたします。
 
 
 == Envoy 詳解
@@ -93,6 +99,60 @@ Envoy では思想として 100 ％ノンブロッキングをうたっており
 TODO
 - スレッドローカルストレージ
 
+=== Envoy のリソース抽象化
+
+Envoy ではネットワーク通信やプロキシ処理における様々なリソースを抽象化しています。
+全体像は以下の図の通りになります。
+
+（いい感じの図）
+
+ここでは主要な、抽象化されたリソースを解説していきます。
+
+==== Listener
+
+Envoy がクライアント、 Envoy の用語としては downstream から受け付けるコネクションを受け付けるネットワークロケーションです。
+現在は TCP listener のみサポートしているようです。
+Envoy では複数の Listener に対応しており、この Listener に対して後述の Filter を設定して通信制御や Cluster への転送を行います。
+
+==== Listener Filter
+
+Envoy の Listener に対応してコネクションのメタデータを修正したりするのに使われる Filter です。
+主に他のシステムとの連携に使用するのに必要なメタデータを付与したりするのに使う想定のようです。
+
+==== Network(L3/L4) Filter
+
+L3, L4 レベルの生データを触れて制御することができる Filter です。
+そして Envoy においてプロキシの制御のコアの部分はこの Network Filter として実装されているといえます。
+
+HTTP リクエストに関してフィルタやルーティングなどを行う、恐らく Envoy を利用する上でお世話になることが多々ある HTTP connection manager もこの Network Filter の一種です。
+その他にも TCP Proxy 機能の提供やレートリミットも Network Filter の一種として提供されます。
+
+==== HTTP connection manager 
+
+HTTP connection manager は Network Filter の一種であり生データを処理して HTTP として解釈した上で様々な機能を提供します。
+Envoy は HTTP に関しては HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。(ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが)
+HTTP connection manager がサポートする機能としては以下の通りです。
+
+- HTTP Filter のサポート
+- ルーティング
+- アクセスログの記録
+- トレーシングのためのリクエスト ID 発行
+- リクエスト・レスポンスヘッダの修正
+
+HTTP Filter というのは Network Filter の HTTP 版であるようなイメージを浮かべていただけるといいと思います。
+HTTP Filter として標準でサポートされている機能も多々あり、バッファリングや gzip 圧縮など nginx などの他のプロキシ実装でも広く存在するものや、 gRPC-HTTP/1.1 bridge など gRPC のサポートを厚くしている Envoy の特色が出ているものなど多岐にわたります。
+また HTTP Filter では Lua スクリプトによる機能拡張もサポートされています。
+
+ルーティングは HTTP リクエストに対して適切な upstream Cluster を決定してリクエストを転送する機能を提供します。
+それの伴いバーチャルホストの提供やホストの書き換え、リトライ、優先度の解釈などの機能も提供します。
+
+==== Cluster
+
+Envoy におけるプロキシ先の upstream ホストをグループ化したものです。
+upstream ホストはヘルスチェックされ生死判定をされ、 Envoy が実際に転送処理を行う際は生きている upstream ホストに対して、ロードバランシングポリシーを加味して転送先を決定することになります。
+
+ちなみに Envoy が転送処理を行う際に upstream Cluster を探す必要があるのですが、これを service discovery と呼んでいます。
+
 === Envoy の特徴的な機能説明
 
 Envoy には先に挙げたようなユニークな機能がいくつか存在します。
@@ -114,20 +174,84 @@ Envoy の公式ページでは、 Envoy は各アプリケーションとセッ�
 
 == Envoy の試し方
 
-=== Envoy を軽く動かす方法
-
-そんなのある？
-Docker image 使ったほうが早そう
-
+ここまで解説してきた Envoy ですが、まずは実際の動作や設定値を確認してみた方がイメージもつかみやすいでしょう。
+ここでは公式で提供されている Docker image を使って手軽に動作を確認しつつ、設定項目を追ってみようと思います。
 
 === Docker image 使ったり
 
-MUST でやる
-公式ドキュメントに記述がある
+TODO Envoy はマイクロサービス前提以外でも動かせるような説明をする
 
-=== GCP 上で動かしてみたり（できる？
+Envoy 公式提供の Docker image ですが、以下のように普通に docker pull して使用することができます。
+この image では 10000 番ポートでプロキシリクエストの、 9901 番ポートで管理用リクエストの受け付けをしており、動作時にポートマッピングをすることで気軽に動作確認することができます。
 
-できたらやる、無理はしない
+//cmd{
+$ docker pull envoyproxy/envoy
+$ docker run -it -p 10000:10000 -p 9901:9901 envoyproxy/envoy
+//}
+
+（いい感じの図）
+
+動作している Envoy に対してリクエストを発行すると、このイメージにおけるデフォルトの upstream である google.com にプロキシされ、無事にレスポンスが得られる事が確認できます。
+また server ヘッダが envoy となっており、 Envoy からレスポンスが返ってきたであろうことも確認できます。
+
+//cmd{
+$ curl -I http://localhost:10000/
+HTTP/1.1 200 OK
+date: Mon, 17 Sep 2018 06:38:02 GMT
+expires: -1
+cache-control: private, max-age=0
+content-type: text/html; charset=ISO-8859-1
+p3p: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+server: envoy
+x-xss-protection: 1; mode=block
+...
+//}
+
+この Docker image に含まれるデフォルトの設定ファイルは Envoy の GitHub のリポジトリの configs/google_com_proxy.v2.yaml の内容になります。
+ここでは一部エッセンスを抜粋して上記で発生した動作を追ってみます。
+
+//source[/etc/envoy/envoy.yaml]{
+...
+static_resources:
+  listeners:
+  - name: listener_0
+    address:
+      sockert_address:
+        protocol: TCP
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains: ["*"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  host_rewrite: www.google.com
+                  cluster: google.com
+          http_filters:
+          - name: envoy.router
+  clusters:
+  - name: service_google
+    connect_timeout: 0.25s
+    type: LOCAL_DNS
+    dns_lookup_family: V4_ONLY
+    lb_policy: ROUND_ROBIN
+    hosts:
+      - socket_address:
+        address: google.com
+        port_value: 443
+    tls_context: { sni: www.google.com }
+//}
+
+TODO upstream を xDS API 経由で切り替えてみる
 
 
 == まとめ
