@@ -101,37 +101,57 @@ TODO
 
 === Envoy のリソース抽象化
 
-Envoy ではネットワーク通信やプロキシ処理における様々なリソースを抽象化して、独自の用語をつけています。
-ここでは主要な用語を解説していきます。
+Envoy ではネットワーク通信やプロキシ処理における様々なリソースを抽象化しています。
+全体像は以下の図の通りになります。
+
+（いい感じの図）
+
+ここでは主要な、抽象化されたリソースを解説していきます。
 
 ==== Listener
 
-Envoy がリクエストを受け付ける単位であり、現在は TCP listener のみサポートされています。
-Envoy では Listener に対して filter を掛けたり、 Network(L3/L4) Filter を掛けたり、レートリミットなどの制御を行うことができます。
+Envoy がクライアント、 Envoy の用語としては downstream から受け付けるコネクションを受け付けるネットワークロケーションです。
+現在は TCP listener のみサポートしているようです。
+Envoy では複数の Listener に対応しており、この Listener に対して後述の Filter を設定して通信制御や Cluster への転送を行います。
 
 ==== Listener Filter
 
-Envoy の Listener に対する処理を行う Filter です。
-コネクションのメタデータを制御したりできます。
-
-TODO
+Envoy の Listener に対応してコネクションのメタデータを修正したりするのに使われる Filter です。
+主に他のシステムとの連携に使用するのに必要なメタデータを付与したりするのに使う想定のようです。
 
 ==== Network(L3/L4) Filter
 
 L3, L4 レベルの生データを触れて制御することができる Filter です。
+そして Envoy においてプロキシの制御のコアの部分はこの Network Filter として実装されているといえます。
 
-TODO
+HTTP リクエストに関してフィルタやルーティングなどを行う、恐らく Envoy を利用する上でお世話になることが多々ある HTTP connection manager もこの Network Filter の一種です。
+その他にも TCP Proxy 機能の提供やレートリミットも Network Filter の一種として提供されます。
+
+==== HTTP connection manager 
+
+HTTP connection manager は Network Filter の一種であり生データを処理して HTTP として解釈した上で様々な機能を提供します。
+Envoy は HTTP に関しては HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。（ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが）
+HTTP connection manager がサポートする機能としては以下の通りです。
+
+- HTTP Filter のサポート
+- ルーティング
+- アクセスログの記録
+- トレーシングのためのリクエスト ID 発行
+- リクエスト・レスポンスヘッダの修正
+
+HTTP Filter というのは Network Filter の HTTP 版であるようなイメージを浮かべていただけるといいと思います。
+HTTP Filter として標準でサポートされている機能も多々あり、バッファリングや GZIP 圧縮など nginx などの他のプロキシ実装でも広く存在するものや、 gRPC-HTTP/1.1 bridge など gRPC のサポートを厚くしている Envoy の特色が出ているものなど多岐にわたります。
+また HTTP Filter では Lua スクリプトによる機能拡張もサポートされています。
+
+ルーティングは HTTP リクエストに対して適切な upstream Cluster を決定してリクエストを転送する機能を提供します。
+それの伴いバーチャルホストの提供やホストの書き換え、リトライ、優先度の解釈などの機能も提供します。
 
 ==== Cluster
 
-Envoy におけるプロキシ先の upstream を抽象化したものです。
-Cluster に対してロードバランシングしたりできます。
+Envoy におけるプロキシ先の upstream ホストをグループ化したものです。
+upstream ホストはヘルスチェックされ生死判定をされ、 Envoy が実際に転送処理を行う際は生きている upstream ホストに対して、ロードバランシングポリシーを加味して転送先を決定することになります。
 
-TODO
-
-==== 他にもいろいろ
-
-Route など
+ちなみに Envoy が転送処理を行う際に upstream Cluster を探す必要があるのですが、これを service discovery と呼んでいます。
 
 === Envoy の特徴的な機能説明
 
