@@ -130,7 +130,7 @@ HTTP リクエストに関してフィルタやルーティングなどを行う
 ==== HTTP connection manager 
 
 HTTP connection manager は Network Filter の一種であり生データを処理して HTTP として解釈した上で様々な機能を提供します。
-Envoy は HTTP に関しては HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。（ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが）
+Envoy は HTTP に関しては HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。(ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが)
 HTTP connection manager がサポートする機能としては以下の通りです。
 
 - HTTP Filter のサポート
@@ -140,7 +140,7 @@ HTTP connection manager がサポートする機能としては以下の通り�
 - リクエスト・レスポンスヘッダの修正
 
 HTTP Filter というのは Network Filter の HTTP 版であるようなイメージを浮かべていただけるといいと思います。
-HTTP Filter として標準でサポートされている機能も多々あり、バッファリングや GZIP 圧縮など nginx などの他のプロキシ実装でも広く存在するものや、 gRPC-HTTP/1.1 bridge など gRPC のサポートを厚くしている Envoy の特色が出ているものなど多岐にわたります。
+HTTP Filter として標準でサポートされている機能も多々あり、バッファリングや gzip 圧縮など nginx などの他のプロキシ実装でも広く存在するものや、 gRPC-HTTP/1.1 bridge など gRPC のサポートを厚くしている Envoy の特色が出ているものなど多岐にわたります。
 また HTTP Filter では Lua スクリプトによる機能拡張もサポートされています。
 
 ルーティングは HTTP リクエストに対して適切な upstream Cluster を決定してリクエストを転送する機能を提供します。
@@ -251,7 +251,7 @@ static_resources:
     tls_context: { sni: www.google.com }
 //}
 
-TODO upstream を xDS API 経由で切り替えてみる？できるなら
+TODO upstream を xDS API 経由で切り替えてみる
 
 
 == まとめ
