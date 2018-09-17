@@ -67,7 +67,13 @@ Envoy の担う機能はアプリケーションとは別コンテナで動作�
 @<href>{https://istio.io/, Istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行うソフトウェアです。
 現状だとターゲットとするインフラとして Kubernetes を前提にしています。
 
-ほげほげ〜〜
+Istio では Envoy を拡張一部拡張して Data Plane を実現するのに使います。
+Envoy は Kubernetes でデプロイする Pod 全てに Sidecar として導入され、マイクロサービス間の通信時に Sidecar の Envoy 同士が通信処理を仲介するような動作になります。
+マイクロサービスの世界では Pod の生き死にが頻繁に起こり、 Envoy のルーティングの設定を動的に更新できなければなりません。
+Istio ではこの設定変更を実現するために Pilot というコンポーネントを持ち、 Envoy に対するルーティングルールを設定して Envoy に伝えるようにしています。
+
+本記事では Envoy に主眼を起きたいため Istio については深く触れません。
+詳しく知りたい方は先述の公式ページのリンクを辿ったり、実際の導入事例などを探してみることをおすすめいたします。
 
 
 == Envoy 詳解
@@ -92,6 +98,40 @@ Envoy では思想として 100 ％ノンブロッキングをうたっており
 
 TODO
 - スレッドローカルストレージ
+
+=== Envoy のリソース抽象化
+
+Envoy ではネットワーク通信やプロキシ処理における様々なリソースを抽象化して、独自の用語をつけています。
+ここでは主要な用語を解説していきます。
+
+==== Listener
+
+Envoy がリクエストを受け付ける単位であり、現在は TCP listener のみサポートされています。
+Envoy では Listener に対して filter を掛けたり、 Network(L3/L4) Filter を掛けたり、レートリミットなどの制御を行うことができます。
+
+==== Listener Filter
+
+Envoy の Listener に対する処理を行う Filter です。
+コネクションのメタデータを制御したりできます。
+
+TODO
+
+==== Network(L3/L4) Filter
+
+L3, L4 レベルの生データを触れて制御することができる Filter です。
+
+TODO
+
+==== Cluster
+
+Envoy におけるプロキシ先の upstream を抽象化したものです。
+Cluster に対してロードバランシングしたりできます。
+
+TODO
+
+==== 他にもいろいろ
+
+Route など
 
 === Envoy の特徴的な機能説明
 
@@ -191,14 +231,7 @@ static_resources:
     tls_context: { sni: www.google.com }
 //}
 
-=== Envoy を軽く動かす方法
-
-そんなのある？
-Docker image 使ったほうが早そう
-
-=== GCP 上で動かしてみたり（できる？
-
-できたらやる、無理はしない
+TODO upstream を xDS API 経由で切り替えてみる？できるなら
 
 
 == まとめ
