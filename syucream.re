@@ -159,6 +159,26 @@ Envoy には先に挙げたようなユニークな機能がいくつか存在�
 ここでは xDS API と分散トレーシングに関して深掘りしてみようと思います。
 
 
+==== xDS API
+
+少しだけ先述しましたが、 Envoy は xDS API という多種にわたる動的設定変更のための API をサポートしています。
+具体的には以下の API がサポートされています。(Envoy の API には v1 と v2 の 2 バージョンがあるのですが、ここでは v2 のみ触れます)
+
+- LDS(Listener Discovery Service)
+- RDS(Route Discovery Service)
+- CDS(Cluster Discovery Service)
+- EDS(Endpoint Discovery Service)
+
+EDS(Endpoint Discovery Service) は xDS API の中でもよく使われる類のものかも知れません。 Cluster のメンバーとなる upstream ホストを検出します。この API は v1 では SDS(Service Discovery Service) という名前だったようです。
+CDS(Cluster Discovery Service) は upstream Cluster を探す際に使われます。
+RDS(Route Discovery Service) は HTTP connection manager に関連する xDS API であり、ルーティングの設定を変更することができます。
+LDS(Listener Discovery Service) は〜ほげほげ
+
+xDS API の定義は @<href>{https://developers.google.com/protocol-buffers/, Protocol Buffer} によって @<href>{https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md, 定義されて} います。
+xDS API にアクセスすることを考える際は、この定義をよく見るのが良さそうです。
+
+==== その他
+
 ほげほげ〜〜
 （サーキットブレイカーも気になる？）
 （ロードバランサーも気になる？）
