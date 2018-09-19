@@ -59,13 +59,13 @@ Envoy は @<href>{https://www.cncf.io/, Cloud Native Computing Foundation} の�
 Envoy は C++11 で実装されており、ハイパフォーマンスでマイクロサービスの世界におけるネットワーキングとオブサーバビリティの問題を解決することを目指しています。
 具体的に Envoy が持つ機能・特徴は以下のようになります。
 
-- 省メモリで高性能
-- HTTP/2 と gRPC のサポート (もちろん HTTP/1.1 もサポートしている)
-- 自動リトライ
-- サーキットブレイカー
-- 複数種類のロードバランシング
-- 動的に設定変更を可能にする API の提供
-- 分散トレーシングや特定データベースに特化したオブザーバビリティの提供
+ * 省メモリで高性能
+ * HTTP/2 と gRPC のサポート (もちろん HTTP/1.1 もサポートしている)
+ * 自動リトライ
+ * サーキットブレイカー
+ * 複数種類のロードバランシング
+ * 動的に設定変更を可能にする API の提供
+ * 分散トレーシングや特定データベースに特化したオブザーバビリティの提供
 
 この中でも動的に設定変更可能にしている API の存在はユニークであると思われます。
 Envoy は複数種類からなる xDS(x Discovery Service) API をサポートしており、外部システムにプロキシとしての振る舞いの設定管理を委ねることができます。
@@ -144,11 +144,11 @@ HTTP connection manager は Network Filter の一種であり生データを処�
 Envoy は HTTP に関しては HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。(ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが)
 HTTP connection manager がサポートする機能としては以下の通りです。
 
-- HTTP Filter のサポート
-- ルーティング
-- アクセスログの記録
-- トレーシングのためのリクエスト ID 発行
-- リクエスト・レスポンスヘッダの修正
+ * HTTP Filter のサポート
+ * ルーティング
+ * アクセスログの記録
+ * トレーシングのためのリクエスト ID 発行
+ * リクエスト・レスポンスヘッダの修正
 
 HTTP Filter というのは Network Filter の HTTP 版であるようなイメージを浮かべていただけるといいと思います。
 HTTP Filter として標準でサポートされている機能も多々あり、バッファリングや gzip 圧縮など nginx などの他のプロキシ実装でも広く存在するものや、 gRPC-HTTP/1.1 bridge など gRPC のサポートを厚くしている Envoy の特色が出ているものなど多岐にわたります。
@@ -174,10 +174,10 @@ Envoy には先に挙げたようなユニークな機能がいくつか存在�
 少しだけ先述しましたが、 Envoy は xDS API という多種にわたる動的設定変更のための API をサポートしています。
 具体的には以下の API がサポートされています。(Envoy の API には v1 と v2 の 2 バージョンがあるのですが、ここでは v2 のみ触れます)
 
-- LDS(Listener Discovery Service)
-- RDS(Route Discovery Service)
-- CDS(Cluster Discovery Service)
-- EDS(Endpoint Discovery Service)
+ * LDS(Listener Discovery Service)
+ * RDS(Route Discovery Service)
+ * CDS(Cluster Discovery Service)
+ * EDS(Endpoint Discovery Service)
 
 EDS(Endpoint Discovery Service) は xDS API の中でもよく使われる類のものかも知れません。 Cluster のメンバーとなる upstream ホストを検出します。この API は v1 では SDS(Service Discovery Service) という名前だったようです。
 CDS(Cluster Discovery Service) は upstream Cluster を探す際に使われます。
@@ -209,9 +209,9 @@ Envoy が提供する大きな機能であり、マイクロサービスの世�
 Envoy ではこの関連付けを行ってオブザーバビリティを向上するための幾つかの仕組みが提供されています。
 ちなみにこれらの仕組みは Envoy では HTTP connection manager によって提供されます。
 
-- リクエスト ID の生成
-- 外部トレーシングサービスとの連携
-- クライアントトレース ID の結合
+ * リクエスト ID の生成
+ * 外部トレーシングサービスとの連携
+ * クライアントトレース ID の結合
 
 リクエスト ID は実態は UUID です。 Envoy ではこの生成した UUID を x-request-id HTTP ヘッダに付与してくれます。
 このリクエスト ID をログに記録しておくことで、後で複数のマイクロサービスのログを x-request-id で突き合わせてリクエストのフローを確認することができます。
@@ -226,10 +226,10 @@ Envoy でサーキットブレイカーをサポートすることにより、�
 
 Envoy では以下に上げるような複数種類のサーキットブレイカーを提供します。
 
-- Cluster への最大コネクション数
-- Cluster への最大未処理コネクション数
-- Cluster への最大リクエスト数
-- Cluster への最大リトライ数
+ * Cluster への最大コネクション数
+ * Cluster への最大未処理コネクション数
+ * Cluster への最大リクエスト数
+ * Cluster への最大リトライ数
 
 TODO もう少しイメージを沸かせる
 
@@ -239,11 +239,11 @@ Envoy は upstream Cluster への接続が必要になった際に、幾つか�
 ロードバランシングの方法は upstream Cluster 毎に設定できます。
 標準でサポートされているロードバランシング方法は以下の通りです。
 
-- 重み付きラウンドロビン
-- 重み付き最小リクエスト
-- リングハッシュ
-- Maglev
-- ランダム
+ * 重み付きラウンドロビン
+ * 重み付き最小リクエスト
+ * リングハッシュ
+ * Maglev
+ * ランダム
 
 重み付き、と付く方法はエンドポイントに重みを付けて、重みが大きいエンドポイントにより負荷を高めるようスケジュールできます。
 
@@ -259,8 +259,8 @@ Envoy の技術的側面について考えていくと、 nginx などモダン�
 Envoy の公式ページでは、 Envoy は各アプリケーションとセットで動作し、オブザーバビリティなどマイクロサービスにおける問題を解くのに注力しているような記述が見受けられます。
 また nginx を比較の対象とするなら、 Envoy はそれに比べて以下のような長所が存在します。
 
-- downstream だけでなく upstream への通信も HTTP/2 に対応している
-- nginx plus でサポートされるようなロードバランサの仕組みを Envoy では標準で搭載している
+ * downstream だけでなく upstream への通信も HTTP/2 に対応している
+ * nginx plus でサポートされるようなロードバランサの仕組みを Envoy では標準で搭載している
 
 筆者の個人の意見としては、 Envoy は nginx など既存のプロキシと比べて機能の充実具合や拡張性でいうとまだ劣ると考えています。
 しかし逆に機能が少ないゆえにターゲットとする課題を解くのに最低限のことができるものと思われます。
