@@ -189,10 +189,10 @@ Envoy には先に挙げたようなユニークな機能がいくつか存在�
  * CDS(Cluster Discovery Service)
  * EDS(Endpoint Discovery Service)
 
-EDS(Endpoint Discovery Service) は xDS API の中でもよく使われる類のものかも知れません。 Cluster のメンバーとなる upstream ホストを検出します。この API は v1 では SDS(Service Discovery Service) という名前だったようです。
-CDS(Cluster Discovery Service) は upstream Cluster を探す際に使われます。
+EDS(Endpoint Discovery Service) は xDS API の中でもよく使われる類のものかも知れません。 Cluster のメンバーとなる upstream ホストを検出します。ちなみにこの API は v1 では SDS(Service Discovery Service) という名前だったようです。
+CDS(Cluster Discovery Service) は upstream Cluster の設定を与える際に使われます。
 RDS(Route Discovery Service) は HTTP connection manager に関連する xDS API であり、ルーティングの設定を変更することができます。
-LDS(Listener Discovery Service) は〜ほげほげ
+LDS(Listener Discovery Service) は Listener の設定を与える際に使われます。
 
 xDS API の定義は @<href>{https://developers.google.com/protocol-buffers/, Protocol Buffer} によって @<href>{https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md, 定義されて} います。
 
@@ -297,11 +297,11 @@ Envoy はマイクロサービスの世界における課題を解決するた�
 ちょうど Envoy 公式提供の Docker image がそのようなシンプルな動作確認も想定してビルドされているので、シンプルにそれを動かしてみましょう。
 
 さて公式の Docker image ですが、以下のように普通に docker pull して使用することができます。
-この image では 10000 番ポートでプロキシリクエストの、 9901 番ポートで管理用リクエストの受け付けをしており、動作時にポートマッピングをすることで気軽に動作確認することができます。
+この image では 10000 番ポートでプロキシリクエストの受け付けをしており、動作時にポートマッピングをすることで気軽に動作確認することができます。
 
 //cmd{
 $ docker pull envoyproxy/envoy
-$ docker run -it -p 10000:10000 -p 9901:9901 envoyproxy/envoy
+$ docker run -it -p 10000:10000 envoyproxy/envoy
 //}
 
 （いい感じの図）
@@ -356,7 +356,7 @@ static_resources:
   clusters:
   - name: service_google
     connect_timeout: 0.25s
-    type: LOCAL_DNS
+    type: LOGICAL_DNS
     dns_lookup_family: V4_ONLY
     lb_policy: ROUND_ROBIN
     hosts:
@@ -368,8 +368,265 @@ static_resources:
 
 === 複雑な構成を試してみる
 
-TODO upstream を xDS API 経由で切り替えてみる
+公式の Docker image をそのまま動かすのではあまり面白く無いでしょう。
+ここでは更に踏み込んで、 xDS API との連携やロードバランシングの動作の確認も行ってみましょう。
+なお、ここに掲載するサンプルは @<href>{https://github.com/syucream/envoy-simple-example, GitHub の筆者のリポジトリ} に公開されています。
 
+xDS API は gRPC サーバを立ててストリームで DiscoveryResponse メッセージを渡すのが王道のようですが、まともに構築するのはやや面倒です。
+ここではコストを低減すべく REST API で HTTP 越しに静的な JSON ファイルを返すことで xDS API の動作を確認してみようと思います。
+また全ての xDS 用の DiscoveryResponse を用意するのも面倒ですし、動作確認もしやすくメッセージ型があまり複雑でない EDS のみ対象にしてみます。
+
+今回のデモの構成としては以下の通りにしてみます。
+まず Envoy と、それと連携する EDS API 、そして Envoy の upstream の endpoint となる 2 台のサーバから構成されます。
+
+(いい感じの図)
+
+Envoy と EDS API の連携のため、 Envoy の設定ファイルには upstream Cluster の endpoint の解決方法を EDS にします。
+また EDS API として参照する先の Cluster も別途設定しておきます。
+EDS API は今回 REST API と提供するのでその指定と、 Envoy が EDS API を参照しにいく頻度を指定しておきます。
+
+//source[etc/envoy/envoy.yaml]{
+...
+static_resources:
+  listeners:
+  - name: listener_0
+    address:
+      socket_address:
+        protocol: TCP
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains: ["*"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: cluster_0
+          http_filters:
+          - name: envoy.router
+  clusters:
+  - name: eds_cluster
+    type: LOGICAL_DNS
+    connect_timeout: 0.25s
+    dns_lookup_family: V4_ONLY
+    hosts:
+      - socket_address:
+          address: httpxds
+          port_value: 8080
+  - name: cluster_0
+    type: EDS
+    connect_timeout: 0.25s
+    lb_policy: ROUND_ROBIN
+    eds_cluster_config:
+      eds_config:
+        api_config_source:
+          api_type: REST
+          cluster_names: [eds_cluster]
+          refresh_delay: 60s
+//}
+
+次に EDS API のレスポンスを作り込みます。
+2 台の endpoint の IP アドレスを予め決めておき、 DiscoveryResponse の要素として ClusterLoadAssignment メッセージ型のレスポンスを用意しておきます。
+
+//source[etc/httpxds/eds.json]{
+{
+  "resources": [
+    {
+      "@type": "type.googleapis.com/envoy.api.v2.ClusterLoadAssignment",
+      "cluster_name": "cluster_0",
+      "endpoints": [
+        {
+          "lb_endpoints": [
+            {
+              "endpoint": {
+                "address": {
+                  "socket_address": {
+                    "protocol": "TCP",
+                    "address": "172.16.238.10",
+                    "port_value": 80
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "lb_endpoints": [
+            {
+              "endpoint": {
+                "address": {
+                  "socket_address": {
+                    "protocol": "TCP",
+                    "address": "172.16.238.11",
+                    "port_value": 80
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+//}
+
+
+この JSON ファイルを配信する方法は何でもいいのですが、今回は nginx で EDS API のエンドポイント v2/discovery:endpoints でリクエストされた際に返却できるようにしてみます。
+
+//source[etc/httpxds/xds.conf]{
+server {
+    listen       8080;
+    server_name  localhost;
+
+    # Allow POST method to get static responses
+    error_page 405 = $uri;
+
+    # Envoy EDS API
+    location = /v2/discovery:endpoints {
+        alias /usr/share/nginx/json/eds.json;
+    }
+}
+//}
+
+2 台の endpoint の構成も何でも良いでしょう。 EDS API と揃えて nginx で html ファイルを配信することにします。
+全ての準備が出来たら、今回はシンプルに docker-compose で連携させてみます。
+
+//source[docker-compose.yml]{
+version: '3'
+
+services:
+  envoy:
+    container_name: envoy
+    image: envoyproxy/envoy
+    volumes:
+      - ./etc/envoy/envoy.yaml:/etc/envoy/envoy.yaml:ro
+    links:
+      - httpxds
+      - endpoint0
+      - endpoint1
+    ports:
+      - "10000:10000"
+      - "9901:9901"
+    networks:
+      - app_net
+    command: "/usr/local/bin/envoy --v2-config-only --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml"
+
+  httpxds:
+    container_name: httpxds
+    image: nginx
+    volumes:
+      - ./etc/httpxds/eds.json:/usr/share/nginx/json/eds.json
+      - ./etc/httpxds/xds.conf:/etc/nginx/conf.d/xds.conf:ro
+    networks:
+      - app_net
+
+  endpoint0:
+    container_name: endpoint0
+    image: nginx
+    volumes:
+      - ./etc/endpoint0/whoami.html:/usr/share/nginx/html/whoami.html:ro
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+
+  endpoint1:
+    container_name: endpoint1
+    image: nginx
+    volumes:
+      - ./etc/endpoint1/whoami.html:/usr/share/nginx/html/whoami.html:ro
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 172.16.238.0/24
+//}
+
+docker-compose で各コンテナを動作させて、実際に Envoy へリクエストを投げてみます。
+
+//cmd{
+$ docker-compose up
+...
+$ curl http://localhost:10000/whoami.html
+...
+$ curl http://localhost:10000/whoami.html
+...
+# docker-compose の出力にそれぞれリクエストが振られているログが出る
+...
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:40:26 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint1    | 172.16.238.3 - - [22/Sep/2018:14:40:27 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:40:27 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint1    | 172.16.238.3 - - [22/Sep/2018:14:40:28 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+...
+//}
+
+以上により、無事に EDS API により配信された endpoint へ、負荷分散されつつリクエストが転送されたことが確認できました！
+加えて EDS API のレスポンスを変更したらどうなるでしょうか。
+
+//source[etc/httpxds/eds.json]{
+{
+  "resources": [
+    {
+      "@type": "type.googleapis.com/envoy.api.v2.ClusterLoadAssignment",
+      "cluster_name": "cluster_0",
+      "endpoints": [
+        {
+          "lb_endpoints": [
+            {
+              "endpoint": {
+                "address": {
+                  "socket_address": {
+                    "protocol": "TCP",
+                    "address": "172.16.238.10",
+                    "port_value": 80
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+//}
+
+//cmd{
+$ curl http://localhost:10000/whoami.html
+...
+$ curl http://localhost:10000/whoami.html
+...
+# docker-compose の出力に 1 endpoint 分しか出てこなくなる
+...
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:35 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:36 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:37 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:37 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:38 +0000] "GET /whoami.html HTTP/1.1" 200 113 "-" "curl/7.54.0" "-"
+...
+//}
+
+EDS API で返却する endpoint の情報の更新が Envoy にも伝わっていることが見て取れます。
+
+
+== おまけ: Envoy ソースコードリーティング
+
+TODO
 
 == まとめ
 
