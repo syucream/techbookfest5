@@ -61,7 +61,9 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 
 //footnote[kubernetes][Kubernetes: https://kubernetes.io/]
 //footnote[grpc][gRPC: https://grpc.io/]
+@<comment>{textlint-disable}
 //footnote[apachekafka][Apache Kafka: https://kafka.apache.org/]
+@<comment>{textlint-enable}
 
 === Envoy とは
 
