@@ -6,7 +6,7 @@
 
 よく分からないけどマイクロサービス流行っていますね！
 Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を踏み出す方々も結構多いのではないかと見受けられます。
-国内でも例えば Cookpad が 2014 年にマイクロサービスを意識し始めたらしい @<href>{https://techlife.cookpad.com/entry/2014/09/08/093000, ブログ記事} を公開しています。
+国内でも例えば Cookpad が 2014 年にマイクロサービスを意識し始めたらしいブログ記事 @<fn>{cookpad_techblog} を公開しています。
 かくいう筆者も業務上マイクロサービスを意識したアーキテクチャとソフトウェア開発・組織の構築に、まさに揉まれている最中でございます。
 
 本記事ではそんなマイクロサービスの文脈でよく出てくる技術要素の一つであるサービスメッシュに関わる部分と、 Envoy というリバースプロキシについて触れていきます。
@@ -14,6 +14,7 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 マイクロサービスは真面目に取り組むのなら、単にソフトウェア開発の仕方を少し変えるだとかツールを導入する程度では済まない変更が起こりうり、しばしば痛みを伴うものかと筆者は考えています。
 本記事が読者の皆様にとっての、今後のマイクロサービス化の奔流を乗り越える道標のひとつとして機能することを願っています。
 
+//footnote[cookpad_techblog][クックパッドとマイクロサービス: https://techlife.cookpad.com/entry/2014/09/08/093000]
 
 == マイクロサービス概要
 
@@ -42,24 +43,30 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 筆者としてもマイクロサービスアーキテクチャは馴染まないケースが多々存在し、これに従うにしても組織としてある程度覚悟をしてリスクを承知の上で取り掛かる必要があると考えています。
 
 
-マイクロサービスアーキテクチャに関して深く知るための資料のひとつとして @<href>{https://martinfowler.com/articles/microservices.html, Microservices - Martin Fowler} などの記事が参考になると思われます。
+マイクロサービスアーキテクチャに関して深く知るための資料のひとつとして Martin Fowler 氏の記事 @<fn>{microservices} などの記事が参考になると思われます。
+
+//footnote[microservices][Microservices - Martin Fowler: https://martinfowler.com/articles/microservices.html]
 
 
 == マイクロサービス、そして Envoy と Istio
 
 マイクロサービスアーキテクチャに従って実世界でサービスを構築していくと、前述したものやそれ以外の複雑な問題に遭遇することかと思います。
 そしてそれらの問題を解決するソフトウェアも、世に多く公開されています。
-この文脈でもっとも著名なソフトウェアは @<href>{https://kubernetes.io/, Kubernetes} だと思います。 Kubernetes はインフラを抽象化して、アプリケーションコンテナや周辺システムを制御連携可能にし、コンテナの生死とセフルヒーリングも行ってくれます。
-その他マイクロサービス間のメッセージングのために @<href>{https://grpc.io/, gRPC} とそのエコシステムを使う場面も多いかと思われます。
-更に非同期通信のために @<href>{https://kafka.apache.org/, Apache Kafka} などのメッセージキューを使う場面も場合によっては生じるでしょう。
+この文脈でもっとも著名なソフトウェアは Kubernetes @<fn>{kubernetes} だと思います。 Kubernetes はインフラを抽象化して、アプリケーションコンテナや周辺システムを制御連携可能にし、コンテナの生死とセフルヒーリングも行ってくれます。
+その他マイクロサービス間のメッセージングのために gRPC @<fn>{grpc} とそのエコシステムを使う場面も多いかと思われます。
+更に非同期通信のために Apache Kafka @<fn>{apachekafka} などのメッセージキューを使う場面も場合によっては生じるでしょう。
 
 その中でも本記事のテーマである Envoy は、上記とは異なるマイクロサービスの世界における課題を強くバックアップしてくれるソフトウェアです。
 ここではまず、 Envoy と、それを利用したソフトウェアである Istio について触れます。
 
+//footnote[kubernetes][Kubernetes: https://kubernetes.io/]
+//footnote[grpc][gRPC: https://grpc.io/]
+//footnote[apachekafka][Apache Kafka: https://kafka.apache.org/]
+
 === Envoy とは
 
-@<href>{https://www.envoyproxy.io/, Envoy Proxy} はライドシェアサービスを提供する Lyft によって作られた、マイクロサービスの世界の課題を解決するためのプロキシです。
-Envoy は @<href>{https://www.cncf.io/, Cloud Native Computing Foundation} のソフトウェアでもあります。
+Envoy Proxy @<fn>{envoyproxy} はライドシェアサービスを提供する Lyft によって作られた、マイクロサービスの世界の課題を解決するためのプロキシです。
+Envoy は Cloud Native Computing Foundation @<fn>{cncf} のソフトウェアでもあります。
 
 Envoy は C++11 で実装されており、ハイパフォーマンスでマイクロサービスの世界におけるネットワーキングとオブサーバビリティの問題を解決することを目指しています。
 具体的に Envoy が持つ機能・特徴は以下のようになります。
@@ -80,10 +87,12 @@ Envoy は複数種類からなる xDS(x Discovery Service) API をサポート�
 Envoy の担う機能はアプリケーションとは別コンテナで動作し、通信は gRPC などで行うことで特定のプログラミング言語に依存することなくマイクロサービスの構成に柔軟性を与えることができます。
 
 //image[syucream_envoy_sidecar][Envoy の利用イメージ][scale=0.7]
+//footnote[envoyproxy][Envoy Proxy: https://www.envoyproxy.io//]
+//footnote[cncf][Cloud Native Computing Foundation: https://www.cncf.io/]
 
 === Istio とは
 
-@<href>{https://istio.io/, Istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行うソフトウェアです。
+Istio @<fn>{istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行うソフトウェアです。
 現状だとターゲットとするインフラとして Kubernetes を前提にしています。
 
 Istio では Envoy を一部拡張して Data Plane を実現するのに使います。
@@ -94,6 +103,7 @@ Istio ではこの設定変更を実現するために Pilot というコンポ�
 本記事では Envoy に主眼を起きたいため Istio については深く触れません。
 詳しく知りたい方は先述の公式ページのリンクを辿ったり、実際の導入事例などを探してみることをおすすめいたします。
 
+//footnote[istio][Istio: https://istio.io/]
 
 == Envoy 詳解
 
@@ -110,7 +120,7 @@ Envoy のスレッドには役割分担があり、 main() から開始された
 worker スレッドの制御には pthread API を利用しています。 C++11 でサポートが入った std::thread の機能はほとんど使われておりません。
 なおこの worker スレッドの数は Envoy のコマンドラインオプション --concurrency で指定可能であり、指定しない場合はハードウェアスレッド数 ( std::thread::hardware_concurrency() から与えられる)分実行されるようです。
 
-またイベント処理に関しては @<href>{https://libevent.org/, libevent} を使っているようです。
+またイベント処理に関しては libevent @<fn>{libevent} を使っているようです。
 Envoy では思想として 100 ％ノンブロッキングをうたっており、ネットワークやファイルの I/O 、内部的な処理をなるべくイベントドリブンで処理可能にしています。
 各ワーカスレッドはそれぞれ libevent でイベントループを回すための、 Envoy 内部で Dispatcher と呼ばれる構造を持ち、これを介してイベントのハンドリングを可能にしています。
 
@@ -118,7 +128,10 @@ Envoy では更にスレッドローカルストレージを抽象化した実�
 スレッドローカルストレージでは C++11 からサポートが入った thread_local キーワードを用いて、スレッド毎に割り当てられた記憶領域に任意の動的生成されたオブジェクトを格納できます。どうやらここでは pthread API の pthread_get_specific() などを使っているようではないようです。
 またスレッドローカルストレージでは、 slot という main スレッドからイベントループを介して（具体的には Dispatcher がサポートする、 0 秒後にタイマーイベントを発火させるメンバー関数を使って）値の更新が可能な領域も持ちます。
 
-Envoy のアーキテクチャに関してより深く知りたい方は、 @<href>{https://speakerdeck.com/mattklein123/kubecon-eu-2018, Kubecon EU 2018 の資料} を参照してみると良いかもしれません！
+Envoy のアーキテクチャに関してより深く知りたい方は、 Kubecon EU 2018 の資料 @<fn>{kubecon_eu_2018} を参照してみると良いかもしれません！
+
+//footnote[libevent][libevent: https://libevent.org/]
+//footnote[kubecon_eu_2018][Kubecon EU 2018: https://speakerdeck.com/mattklein123/kubecon-eu-2018]
 
 === Envoy のリソース抽象化
 
@@ -194,7 +207,7 @@ CDS(Cluster Discovery Service) は upstream Cluster の設定を与える際に�
 RDS(Route Discovery Service) は HTTP connection manager に関連する xDS API であり、ルーティングの設定を変更することができます。
 LDS(Listener Discovery Service) は Listener の設定を与える際に使われます。
 
-xDS API の定義は @<href>{https://developers.google.com/protocol-buffers/, Protocol Buffer} によって @<href>{https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md, 定義されて} います。
+xDS API の定義は Protocol Buffer @<fn>{protobuf} によって定義されて @<fn>{xds_protocol} います。
 
 xDS API は @<img>{syucream_envoy_xdsapi} に示すように、 3 つの設定変更のための方法をサポートします。
 1 個目は最もシンプルで、ファイルとして xDS API に設定内容を渡すことができます。
@@ -202,12 +215,17 @@ xDS API は @<img>{syucream_envoy_xdsapi} に示すように、 3 つの設定�
 2 個目は gRPC でストリーミングで設定値を渡すものになります。この場合も Protocol Buffer のレスポンス用メッセージ型を渡すことで設定変更が可能になります。
 gRPC を使う方法の場合は RDS と EDS 、のような複数の異なる設定項目をやり取り可能にする ADS(Aggregated Discovery Services) を利用することができ、 xDS API 提供の障壁を下げることができます。
 3 個目は JSON REST API を提供する方法になります。この場合 Envoy が指定の API のエンドポイントをポーリングして、設定値に変更があった際に更新してくれます。
-返却する JSON は上記の Protocol Buffer でのメッセージ定義を、 @<href>{https://developers.google.com/protocol-buffers/docs/proto3#json, Protocol Buffer の JSON Mapping} した形式に従います。
+返却する JSON は上記の Protocol Buffer でのメッセージ定義を、 Protocol Buffer の JSON Mapping @<fn>{proto3_json_mapping} した形式に従います。
 
 //image[syucream_envoy_xdsapi][Envoy xDS API][scale=0.9]
 
 xDS API の存在は Envoy の運用に柔軟性を与え、また Istio のような Control Plane の実現を容易にしています。
-実際に xDS API を利用して、 @<href>{https://techlife.cookpad.com/entry/2018/05/08/080000, Cookpad では Istio より小規模な自作の Control Plane を構築} するなど活用しているようです。
+実際に xDS API を利用して、 Cookpad では Istio より小規模な自作の Control Plane を構築 @<fn>{servicemesh_and_cookpad} するなど活用しているようです。
+
+//footnote[protobuf][Protocol Buffer: https://developers.google.com/protocol-buffers/]
+//footnote[xds_protocol][xDS REST and gRPC protocol: https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md]
+//footnote[proto3_json_mapping][Protocol Buffer JSON Mapping: https://developers.google.com/protocol-buffers/docs/proto3#json]
+//footnote[servicemesh_and_cookpad][Service Mesh and Cookpad: https://techlife.cookpad.com/entry/2018/05/08/080000]
 
 ==== トレーシング
 
@@ -265,10 +283,13 @@ Envoy は upstream Cluster への接続が必要になった際に、幾つか�
 重み付き、と付く方法はエンドポイントに重みを付けて、重みが大きいエンドポイントにより負荷を高めるようスケジュールできます。
 
 リングハッシュと Maglev は両方とも、 upstream ホストに対するコンシステントハッシュを作成してバランシングに用いる方法です。
-リングハッシュでは @<href>{https://github.com/RJ/ketama, ketama} 、 Maglev では名前の通り @<href>{https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf, Maglev} というアルゴリズムを用います。
+リングハッシュでは ketama @<fn>{ketama} 、 Maglev では名前の通り Maglev @<fn>{maglev} というアルゴリズムを用います。
 この２つの機能差ですが、 Maglev の方が性能面で利点があるようで、将来的に Maglev がリングハッシュを置き換える想定のようです。
 
 最後のランダムですが、シンプルにヘルスチェックが通っているホストにランダムに振り分けます。
+
+//footnote[ketama][ketama: https://github.com/RJ/ketama]
+//footnote[maglev][Maglev: https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf]
 
 === nginx など従来のプロキシと何が違うのかについて
 
@@ -372,7 +393,7 @@ static_resources:
 
 公式の Docker image をそのまま動かすのではあまり面白く無いでしょう。
 ここでは更に踏み込んで、 xDS API との連携やロードバランシングの動作の確認も行ってみましょう。
-なお、ここに掲載するサンプルは @<href>{https://github.com/syucream/envoy-simple-example, GitHub の筆者のリポジトリ} に公開されています。
+なお、ここに掲載するサンプルは GitHub の筆者のリポジトリ @<fn>{envoy_simple_example} に公開されています。
 
 xDS API は gRPC サーバを立ててストリームで DiscoveryResponse メッセージを渡すのが王道のようですが、まともに構築するのはやや面倒です。
 ここではコストを低減すべく REST API で HTTP 越しに静的な JSON ファイルを返すことで xDS API の動作を確認してみようと思います。
@@ -626,6 +647,7 @@ endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:38 +0000] "GET /whoami.html H
 
 EDS API で返却する endpoint の情報の更新が Envoy にも伝わっていることが見て取れます。
 
+//footnote[envoy_simple_example][syucream/envoy-simple-example: https://github.com/syucream/envoy-simple-example]
 
 == おまけ: Envoy ソースコードリーティング
 
