@@ -19,25 +19,23 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 
 まずは Envoy の話の前に、簡単に必要最低限のマイクロサービスアーキテクチャに関する説明をします。
 
-まずマイクロサービスの対比として、クライアント向け UI とサーバサードアプリケーション、データベースがそれぞれ 1 つずつ存在するモノリスの Web アプリケーションを考えてみましょう。
+まずマイクロサービスの対比として、 @<img>{syucream_monolith_overview} のようなクライアント向け UI とサーバサードアプリケーション、データベースがそれぞれ 1 つずつ存在するモノリスの Web アプリケーションを考えてみましょう。
 このような構成は珍しくなく、実現するためのライブラリやフレームワークの充実は今日では十分にされていると言えるでしょう。
 しかしながらアプリケーションが実現するビジネスロジックが複雑化し、実装に関わるエンジニアが増員されるにつれて統制を取って開発を進めていくのが難しくなりがちです。
 さらにモノリスであるがゆえ、エラーハンドリング漏れや遅延の発生がアプリケーション全体に影響しかねません。
 
-（いい感じの図）
+//image[syucream_monolith_overview][モノリスのイメージ][scale=0.7]
 
 これに対するマイクロサービスアーキテクチャですが、 Netflix などの巨大なサービス群を支えるアーキテクチャの思想のひとつです。
-具体的にはあるサービスの機能や責任を細分化し、小規模で自律するマイクロサービスを協調動作させて構築します。
+具体的には @<img>{syucream_microservices_overview} のようにあるサービスの機能や責任を細分化し、小規模で自律するマイクロサービスを協調動作させて構築します。
 各マイクロサービスとしては自身の責任範囲に集中することになります。
 
-（いい感じの図）
+//image[syucream_microservices_overview][マイクロサービスのイメージ][scale=0.7]
 
 各マイクロサービスは疎結合ゆえ他機能に非依存な技術選択を行うことができ、たとえばそのマイクロサービスが担う責務を担うのにもっとも適切なプログラミング言語やデータベースを選択できます。
 また特定のマイクロサービスのみスケールさせて少数のリソースで提供するサービス全体を安定運用したり、サーキットブレイカーのような仕組みで動作しないマイクロサービスの機能だけ提供を諦めつつ全体のサービスとしては機能を維持する選択もできます。
 加えてマイクロサービスの境界を適切に線引きすることで、各々のマイクロサービスの開発・デプロイ・運用を個別のチームで実施することができ、ビジネスをより早く進めることができるかも知れません。
 もちろんマイクロサービスアーキテクチャに沿う際にどこまで自由度を与えるか、どこまで細分化するかは議論の余地があります。例えば Netflix では主に Java でマイクロサービスを実装することが多いようで、 Java 実装のマイクロサービス向けの共有ライブラリが少なくとも数年前は存在したようです。
-
-（いい感じの図）
 
 これらの話は理想的であり、マイクロサービスアーキテクチャに舵切りすることでビジネスを成長させてきた企業の成功体験を聞くとそれに従いたくなるかも知れません。
 しかしながらマイクロサービスアーキテクチャは、モノリスとして構築するのとは別にマイクロサービス間のメッセージングやサーキットブレイカーなどの共通機能の提供方法、構成が複雑化することによるデバッグや運用の難易度の向上、組織編成になじむかの問題など様々な障壁があると思われます。
@@ -78,8 +76,10 @@ Envoy は C++11 で実装されており、ハイパフォーマンスでマイ�
 Envoy は複数種類からなる xDS(x Discovery Service) API をサポートしており、外部システムにプロキシとしての振る舞いの設定管理を委ねることができます。
 こうした柔軟な設定変更を可能にしているからこそ、マイクロサービス間の通信においてデータのやり取りを担う Data Plane として Envoy を使い、データのやり取りの仕方の管理を担う Control Plane をそれ以外(例えば後述の Istio )に任せる構成が取れます。
 
-また Envoy はコンテナ上で動作させることを想定して開発されており、よくあるパターンとして Kubernetes のアプリケーションコンテナと同じ Pod で動作させる Sidecar コンテナとして使われることがあります。
+また Envoy はコンテナ上で動作させることを想定して開発されており、よくあるパターンとして @<img>{syucream_envoy_sidecar} に示すようなイメージで Kubernetes のアプリケーションコンテナと同じ Pod で動作させる Sidecar コンテナとして使われることがあります。
 Envoy の担う機能はアプリケーションとは別コンテナで動作し、通信は gRPC などで行うことで特定のプログラミング言語に依存することなくマイクロサービスの構成に柔軟性を与えることができます。
+
+//image[syucream_envoy_sidecar][Envoy の利用イメージ][scale=0.7]
 
 === Istio とは
 
@@ -102,6 +102,10 @@ Istio ではこの設定変更を実現するために Pilot というコンポ�
 === Envoy アーキテクチャ概要
 
 Envoy は先述の通りハイパフォーマンスであることを目指しており、モダンなプロキシが取るようなマルチスレッド・イベントドリブンな並列 I/O 処理を実装しています。
+Envoy のアーキテクチャの概要を図示したものが @<img>{syucream_envoy_eventhandling} になります。
+
+//image[syucream_envoy_eventhandling][Envoy のイベントハンドリング][scale=0.9]
+
 Envoy のスレッドには役割分担があり、 main() から開始された単一の main スレッドとネットワーク I/O などのイベントを処理する複数の worker スレッドが存在します。
 worker スレッドの制御には pthread API を利用しています。 C++11 でサポートが入った std::thread の機能はほとんど使われておりません。
 なおこの worker スレッドの数は Envoy のコマンドラインオプション --concurrency で指定可能であり、指定しない場合はハードウェアスレッド数 ( std::thread::hardware_concurrency() から与えられる)分実行されるようです。
@@ -110,22 +114,18 @@ worker スレッドの制御には pthread API を利用しています。 C++11
 Envoy では思想として 100 ％ノンブロッキングをうたっており、ネットワークやファイルの I/O 、内部的な処理をなるべくイベントドリブンで処理可能にしています。
 各ワーカスレッドはそれぞれ libevent でイベントループを回すための、 Envoy 内部で Dispatcher と呼ばれる構造を持ち、これを介してイベントのハンドリングを可能にしています。
 
-（いい感じの図を描く）
-
 Envoy では更にスレッドローカルストレージを抽象化した実装を持ち、スレッド間の共有データを排除してロックなどによるパフォーマンス低下を回避しています。
 スレッドローカルストレージでは C++11 からサポートが入った thread_local キーワードを用いて、スレッド毎に割り当てられた記憶領域に任意の動的生成されたオブジェクトを格納できます。どうやらここでは pthread API の pthread_get_specific() などを使っているようではないようです。
 またスレッドローカルストレージでは、 slot という main スレッドからイベントループを介して（具体的には Dispatcher がサポートする、 0 秒後にタイマーイベントを発火させるメンバー関数を使って）値の更新が可能な領域も持ちます。
-
-（いい感じの図を描く）
 
 Envoy のアーキテクチャに関してより深く知りたい方は、 @<href>{https://speakerdeck.com/mattklein123/kubecon-eu-2018, Kubecon EU 2018 の資料} を参照してみると良いかもしれません！
 
 === Envoy のリソース抽象化
 
 Envoy ではネットワーク通信やプロキシ処理における様々なリソースを抽象化しています。
-全体像は以下の図の通りになります。
+全体像は以下 @<img>{syucream_envoy_resources} の通りになります。ここではイメージを掴みやすいよう、クライアントのリクエストを受け付けてから転送するまでのフローを想定して図示しています。
 
-（いい感じの図）
+//image[syucream_envoy_resources][Envoy の各種リソース][scale=0.8]
 
 ここでは主要な、抽象化されたリソースを解説していきます。
 
@@ -196,7 +196,7 @@ LDS(Listener Discovery Service) は Listener の設定を与える際に使わ�
 
 xDS API の定義は @<href>{https://developers.google.com/protocol-buffers/, Protocol Buffer} によって @<href>{https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md, 定義されて} います。
 
-xDS API は 3 つの設定変更のための方法をサポートします。
+xDS API は @<img>{syucream_envoy_xdsapi} に示すように、 3 つの設定変更のための方法をサポートします。
 1 個目は最もシンプルで、ファイルとして xDS API に設定内容を渡すことができます。
 ファイルの形式は xDS API の定義に従った DiscoveryResponse メッセージ型で Protocol Buffer でエンコードされたバイナリや JSON 、 YAML が利用できます。
 2 個目は gRPC でストリーミングで設定値を渡すものになります。この場合も Protocol Buffer のレスポンス用メッセージ型を渡すことで設定変更が可能になります。
@@ -204,7 +204,7 @@ gRPC を使う方法の場合は RDS と EDS 、のような複数の異なる�
 3 個目は JSON REST API を提供する方法になります。この場合 Envoy が指定の API のエンドポイントをポーリングして、設定値に変更があった際に更新してくれます。
 返却する JSON は上記の Protocol Buffer でのメッセージ定義を、 @<href>{https://developers.google.com/protocol-buffers/docs/proto3#json, Protocol Buffer の JSON Mapping} した形式に従います。
 
-（いい感じの図）
+//image[syucream_envoy_xdsapi][Envoy xDS API][scale=0.9]
 
 xDS API の存在は Envoy の運用に柔軟性を与え、また Istio のような Control Plane の実現を容易にしています。
 実際に xDS API を利用して、 @<href>{https://techlife.cookpad.com/entry/2018/05/08/080000, Cookpad では Istio より小規模な自作の Control Plane を構築} するなど活用しているようです。
@@ -223,14 +223,16 @@ Envoy ではこの関連付けを行ってオブザーバビリティを向上�
  * LightStep や Zipkin のようなトレーシングサービスとの連携
  * クライアントトレース ID の結合
 
+Envoy のトレーシングのための ID 発行・伝搬イメージは @<img>{syucream_envoy_tracing} の通りです。
+
+//image[syucream_envoy_tracing][Envoy のトレーシング][scale=0.7]
+
 リクエスト ID として Envoy では x-request-id HTTP ヘッダを伝搬し、また必要であれば UUID を生成してヘッダの値として付与してくれます。
 このリクエスト ID をログに記録しておくことで、後で複数のマイクロサービスのログを x-request-id で突き合わせてリクエストのフローを確認することができます。
 またスマホアプリなどサーバサイドの外側のクライアントを含めたトレーシングを可能にするため、 x-client-trace-id HTTP ヘッダが付与されていた場合にはその値を x-request-id に追記してくれます。
 
 Envoy にトレーシングを要求する方法は幾つか存在し、まず先述の x-client-trace-id または x-envoy-force-trace HTTP ヘッダが付与されている場合行ってくれます。
 その他にも random_sampling ランタイム設定で指定された値に従ってランダムにトレーシングを行ってくれます。
-
-（いい感じの図）
 
 ==== サーキットブレイカー
 
@@ -247,8 +249,6 @@ Envoy では HTTP connection manager により以下に上げるような複数�
  ** Cluster への最大リクエスト数
  * 共通
  ** Cluster への最大リトライ数
-
-（いい感じの図）
 
 ==== ロードバランサ
 
@@ -304,7 +304,9 @@ $ docker pull envoyproxy/envoy
 $ docker run -it -p 10000:10000 envoyproxy/envoy
 //}
 
-（いい感じの図）
+この Docker image とそれに含まれるデフォルトの設定ファイルからなされる構成は @<img>{syucream_envoy_example1} の通りです。
+
+//image[syucream_envoy_example1][Envoy の動作例][scale=0.8]
 
 動作している Envoy に対してリクエストを発行すると、このイメージにおけるデフォルトの upstream である google.com にプロキシされ、無事にレスポンスが得られる事が確認できます。
 また server ヘッダが envoy となっており、 Envoy からレスポンスが返ってきたであろうことも確認できます。
@@ -376,10 +378,10 @@ xDS API は gRPC サーバを立ててストリームで DiscoveryResponse メ�
 ここではコストを低減すべく REST API で HTTP 越しに静的な JSON ファイルを返すことで xDS API の動作を確認してみようと思います。
 また全ての xDS 用の DiscoveryResponse を用意するのも面倒ですし、動作確認もしやすくメッセージ型があまり複雑でない EDS のみ対象にしてみます。
 
-今回のデモの構成としては以下の通りにしてみます。
+今回のデモの構成としては @<img>{syucream_envoy_example2} のような、以下の通りにしてみます。
 まず Envoy と、それと連携する EDS API 、そして Envoy の upstream の endpoint となる 2 台のサーバから構成されます。
 
-(いい感じの図)
+//image[syucream_envoy_example2][Envoy のより複雑な構成での動作例]
 
 Envoy と EDS API の連携のため、 Envoy の設定ファイルには upstream Cluster の endpoint の解決方法を EDS にします。
 また EDS API として参照する先の Cluster も別途設定しておきます。
@@ -518,7 +520,8 @@ services:
       - "9901:9901"
     networks:
       - app_net
-    command: "/usr/local/bin/envoy --v2-config-only --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml"
+    command: |
+      /usr/local/bin/envoy --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml
 
   httpxds:
     container_name: httpxds
