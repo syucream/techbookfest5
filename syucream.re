@@ -187,7 +187,7 @@ HTTP Filter として標準でサポートされている機能も多々あり�
 Envoy におけるプロキシ先の upstream ホストをグループ化したものです。
 upstream ホストはヘルスチェックされ生死判定をされ、 Envoy が実際に転送処理を行う際は生きている upstream ホストに対して、ロードバランシングポリシーを加味して転送先を決定することになります。
 
-ちなみに Envoy が転送処理を行う際に upstream Cluster を探す必要があるのですが、これを service discovery と呼んでいます。
+ちなみに Envoy が転送処理を行う際に upstream Cluster の host を探す必要があるのですが、これを service discovery と呼びます。
 
 === Envoy の特徴的な機能説明
 
@@ -212,10 +212,14 @@ LDS(Listener Discovery Service) は Listener の設定を与える際に使わ�
 xDS API の定義は Protocol Buffer @<fn>{protobuf} によって定義されて @<fn>{xds_protocol} います。
 
 xDS API は @<img>{syucream_envoy_xdsapi} に示すように、 3 つの設定変更のための方法をサポートします。
+
 1 個目は最もシンプルで、ファイルとして xDS API に設定内容を渡すことができます。
+
 ファイルの形式は xDS API の定義に従った DiscoveryResponse メッセージ型で Protocol Buffer でエンコードされたバイナリや JSON 、 YAML が利用できます。
 2 個目は gRPC でストリーミングで設定値を渡すものになります。この場合も Protocol Buffer のレスポンス用メッセージ型を渡すことで設定変更が可能になります。
+
 gRPC を使う方法の場合は RDS と EDS 、のような複数の異なる設定項目をやり取り可能にする ADS(Aggregated Discovery Services) を利用することができ、 xDS API 提供の障壁を下げることができます。
+
 3 個目は JSON REST API を提供する方法になります。この場合 Envoy が指定の API のエンドポイントをポーリングして、設定値に変更があった際に更新してくれます。
 返却する JSON は上記の Protocol Buffer でのメッセージ定義を、 Protocol Buffer の JSON Mapping @<fn>{proto3_json_mapping} した形式に従います。
 
@@ -228,6 +232,27 @@ xDS API の存在は Envoy の運用に柔軟性を与え、また Istio のよ�
 //footnote[xds_protocol][xDS REST and gRPC protocol: https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md]
 //footnote[proto3_json_mapping][Protocol Buffer JSON Mapping: https://developers.google.com/protocol-buffers/docs/proto3#json]
 //footnote[servicemesh_and_cookpad][Service Mesh and Cookpad: https://techlife.cookpad.com/entry/2018/05/08/080000]
+
+==== service discovery
+
+先述の通り Envoy は転送時に転送先を解決する service discovery を行います。
+この時、以下のような幾つかの方法を選択することができます。
+
+ * Static
+ * Strict DNS
+ * Logical DNS
+ * Original Destination
+ * EDS
+
+Static はもっともシンプルな、直接 upstream host の IP アドレスやポート番号を指定する方法です。
+
+Strict DNS は DNS を使った upstream host の解決方法です。この際に複数の IP アドレスが返ってきた場合はロードバランシングされるよう Envoy が調整してくれます。
+
+Logical DNS は Strict DNS と似た DNS を使った方法なのですが、 upstream host にコネクションを張るにあたり複数 IP アドレスが返却されてもその中の最初の IP アドレスのみを用います。これは DNS ラウンドロビンなど Envoy 以外で負荷分散することを考える際に有用で、 Envoy 公式のドキュメントとしては大規模な Web サービスと通信する際は Logical DNS を使うと良いような記述があります。
+
+Original Destination は iptables の REDIRECT または TPROXY ターゲットを使って、あるいは Proxy Protocol を伴って、 Envoy にリクエストがリダイレクトされた際の upstream host の解決方法です。この場合 Envoy はクライアントが送りたいオリジナルの送信先を upstream host として解決してくれます。 Original Destination は HTTP レベルでも使用することができ、x-envoy-orignal-dst-host ヘッダの値に upstream host として扱う IP アドレスとポート番号を指定できます。
+
+最後に EDS の場合は EDS API を使って upstream host を解決できます。 EDS API を自前で実装することでより柔軟な service discovery が実現でき、また独自のロードバランシングの仕組みも組み込むことができるでしょう。
 
 ==== トレーシング
 
