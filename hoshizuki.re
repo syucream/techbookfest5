@@ -196,7 +196,7 @@ bitcoin のように 10 分に 1 ブロックならそんなに問題になら�
 以前とは比較にならないほど遅くなってしまったのです。
 
 そこでその問題を解決しようと提案されたのが @<fn>{BIP-34} です。
-//footnote[BIP-34]{https://github.com/bitcoin/bips/blob/master/bip-0034.mediawiki]
+//footnote[BIP-34][https://github.com/bitcoin/bips/blob/master/bip-0034.mediawiki]
 
 「エクストラ Nonce 領域は、後続の数値のバイト数を 1Byte で記述してから、
 そのブロックの高さをリトルエンディアンで記述すること」
