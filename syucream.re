@@ -263,7 +263,7 @@ Strict DNS は DNS を使った upstream host の解決方法です。この際�
 
 Logical DNS は Strict DNS と似た DNS を使った方法なのですが、 upstream host にコネクションを張るにあたり複数 IP アドレスが返却されてもその中の最初の IP アドレスのみを用います。これは DNS ラウンドロビンなど Envoy 以外で負荷分散することを考える際に有用で、 Envoy 公式のドキュメントとしては大規模な Web サービスと通信する際は Logical DNS を使うと良いような記述があります。
 
-Original Destination は iptables の REDIRECT または TPROXY ターゲットを使って、あるいは HAProxy Proxy Protocol @{fn}{proxy_protocol} を伴って、 Envoy にリクエストがリダイレクトされた際の upstream host の解決方法です。この場合 Envoy はクライアントが送りたいオリジナルの送信先を upstream host として解決してくれます。 Original Destination は HTTP レベルでも使用することができ、x-envoy-orignal-dst-host ヘッダの値に upstream host として扱う IP アドレスとポート番号を指定できます。
+Original Destination は iptables の REDIRECT または TPROXY ターゲットを使って、あるいは HAProxy Proxy Protocol @<fn>{proxy_protocol} を伴って、 Envoy にリクエストがリダイレクトされた際の upstream host の解決方法です。この場合 Envoy はクライアントが送りたいオリジナルの送信先を upstream host として解決してくれます。 Original Destination は HTTP レベルでも使用することができ、x-envoy-orignal-dst-host ヘッダの値に upstream host として扱う IP アドレスとポート番号を指定できます。
 
 最後に EDS の場合は EDS API を使って upstream host を解決できます。 EDS API を自前で実装することでより柔軟な service discovery が実現でき、また独自のロードバランシングの仕組みも組み込むことができるでしょう。
 
