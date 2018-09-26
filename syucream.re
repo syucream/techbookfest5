@@ -152,8 +152,9 @@ Envoy では複数の Listener に対応しており、この Listener に対し
 
 ==== Listener Filter
 
-Envoy の Listener に対応してコネクションのメタデータを修正したりするのに使われる Filter です。
+@<img>{syucream_envoy_resources} には含めていないのですが、 Envoy では Listener に対応してコネクションのメタデータを修正したりするのに使われる Filter をサポートしています。
 主に他のシステムとの連携に使用するのに必要なメタデータを付与したりするのに使う想定のようです。
+Envoy では現在エクステンションという立ち位置で、後ほど service discovery の Original Destination という機能でも触れるメタデータの読み込みなどの Listener Filter を提供しています。
 
 ==== Network(L3/L4) Filter
 
@@ -180,7 +181,13 @@ HTTP Filter として標準でサポートされている機能も多々あり�
 また HTTP Filter では Lua スクリプトによる機能拡張もサポートされています。
 
 ルーティングは HTTP リクエストに対して適切な upstream Cluster を決定してリクエストを転送する機能を提供します。
-それの伴いバーチャルホストの提供やホストの書き換え、リトライ、優先度の解釈などの機能も提供します。
+それに伴い、以下のような複数の機能も提供します。
+
+ * バーチャルホストの提供
+ * ホストやパスの書き換え
+ * リクエストのリトライ
+ * リクエストのタイムアウト制御
+ * HTTP/2 の優先度による制御
 
 ==== Cluster
 
@@ -188,6 +195,12 @@ Envoy におけるプロキシ先の upstream ホストをグループ化した�
 upstream ホストはヘルスチェックされ生死判定をされ、 Envoy が実際に転送処理を行う際は生きている upstream ホストに対して、ロードバランシングポリシーを加味して転送先を決定することになります。
 
 ちなみに Envoy が転送処理を行う際に upstream Cluster の host を探す必要があるのですが、これを service discovery と呼びます。
+
+==== Upstream
+
+Envoy におけるプロキシ先のホストです。
+upstream のホストへの接続はコネクションプールという機構によって抽象化されており、 L7 の使用プロトコルが HTTP/1.1 なのか HTTP/2 なのかの差異などをここで吸収しています。
+また Envoy ではリトライの処理など何かと upstream 単位で制御してくれたりします。
 
 === Envoy の特徴的な機能説明
 
@@ -250,9 +263,11 @@ Strict DNS は DNS を使った upstream host の解決方法です。この際�
 
 Logical DNS は Strict DNS と似た DNS を使った方法なのですが、 upstream host にコネクションを張るにあたり複数 IP アドレスが返却されてもその中の最初の IP アドレスのみを用います。これは DNS ラウンドロビンなど Envoy 以外で負荷分散することを考える際に有用で、 Envoy 公式のドキュメントとしては大規模な Web サービスと通信する際は Logical DNS を使うと良いような記述があります。
 
-Original Destination は iptables の REDIRECT または TPROXY ターゲットを使って、あるいは Proxy Protocol を伴って、 Envoy にリクエストがリダイレクトされた際の upstream host の解決方法です。この場合 Envoy はクライアントが送りたいオリジナルの送信先を upstream host として解決してくれます。 Original Destination は HTTP レベルでも使用することができ、x-envoy-orignal-dst-host ヘッダの値に upstream host として扱う IP アドレスとポート番号を指定できます。
+Original Destination は iptables の REDIRECT または TPROXY ターゲットを使って、あるいは HAProxy Proxy Protocol @{fn}{proxy_protocol} を伴って、 Envoy にリクエストがリダイレクトされた際の upstream host の解決方法です。この場合 Envoy はクライアントが送りたいオリジナルの送信先を upstream host として解決してくれます。 Original Destination は HTTP レベルでも使用することができ、x-envoy-orignal-dst-host ヘッダの値に upstream host として扱う IP アドレスとポート番号を指定できます。
 
 最後に EDS の場合は EDS API を使って upstream host を解決できます。 EDS API を自前で実装することでより柔軟な service discovery が実現でき、また独自のロードバランシングの仕組みも組み込むことができるでしょう。
+
+//footnote[proxy_protocol][HAProxy Proxy Protocol: http://www.haproxy.org/download/1.9/doc/proxy-protocol.txt]
 
 ==== トレーシング
 
@@ -285,15 +300,16 @@ Envoy にトレーシングを要求する方法は幾つか存在し、まず�
 サーキットブレイカーのロジックをアプリケーションに含ませるのは手軽ではありますが、やはり個別のプログラミング言語で個々に実装していく必要があります。
 Envoy でサーキットブレイカーをサポートすることにより、これらの問題を軽減することができます。
 
-Envoy では HTTP connection manager により以下に上げるような複数種類のサーキットブレイカーを提供します。
+Envoy では HTTP connection manager により以下に上げるようないくつかの種類のサーキットブレイカーを提供します。
 
  * HTTP/1.1 Cluster 向け
  ** Cluster への最大コネクション数
  ** Cluster への最大未処理コネクション数
  * HTTP/2 Cluster 向け
  ** Cluster への最大リクエスト数
- * 共通
- ** Cluster への最大リトライ数
+
+これらのサーキットブレイカーのしきい値を超えた際、 Envoy は HTTP connection manager のルーティング機能によるリトライを行います。
+サーキットブレイカーに引っかかる際のリトライ回数制限も設定項目で指定することができ、これに引っかかった際は Envoy の提供する stats のカウンタに記録されます。
 
 ==== ロードバランサ
 
