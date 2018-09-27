@@ -144,7 +144,7 @@ Envoy では思想として 100 ％ノンブロッキングをうたっており
 各ワーカスレッドはそれぞれ libevent でイベントループを回すための、 Envoy 内部で Dispatcher と呼ばれる構造を持ち、これを介してイベントのハンドリングを可能にしています。
 
 Envoy では更にスレッドローカルストレージを抽象化した実装を持ち、スレッド間の共有データを排除してロックなどによるパフォーマンス低下を回避しています。
-スレッドローカルストレージでは C++11 からサポートが入った thread_local キーワードを用いて、スレッド毎に割り当てられた記憶領域に任意の動的生成されたオブジェクトを格納できます。どうやらここでは pthread API の pthread_get_specific() などを使っているようではないようです。
+スレッドローカルストレージでは C++11 からサポートが入った thread_local キーワードを用いて、スレッド毎に割り当てられた記憶領域に任意の動的生成されたオブジェクトを格納できます。どうやらここでは pthread API の pthread_get_specific() などは使っていないようです。
 またスレッドローカルストレージでは、 slot という main スレッドからイベントループを介して（具体的には Dispatcher がサポートする、 0 秒後にタイマーイベントを発火させるメンバー関数を使って）値の更新が可能な領域も持ちます。
 
 Envoy のアーキテクチャに関してより深く知りたい方は、 Kubecon EU 2018 の資料 @<fn>{kubecon_eu_2018} を参照してみると良いかもしれません！
@@ -176,15 +176,18 @@ Envoy では現在エクステンションという立ち位置で、後ほど s
 ==== Network(L3/L4) Filter
 
 L3, L4 レベルの生データを触れて制御することができる Filter です。
-そして Envoy においてプロキシの制御のコアの部分はこの Network Filter として実装されているといえます。
+そして Envoy においてプロキシの制御のコアの部分はこの Network Filter として実装されています。
 
-HTTP リクエストに関してフィルタやルーティングなどを行う、恐らく Envoy を利用する上でお世話になることが多々ある HTTP connection manager もこの Network Filter の一種です。
+後述する、 Envoy を利用する上でお世話になることが多いであろう HTTP connection manager もこの Network Filter の一種です。
 その他にも TCP Proxy 機能の提供やレートリミットも Network Filter の一種として提供されます。
 
 ==== HTTP connection manager 
 
-HTTP connection manager は Network Filter の一種であり生データを処理して HTTP として解釈した上で様々な機能を提供します。
-Envoy は HTTP に関しては HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。(ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが)
+HTTP connection manager は Network Filter の一種です。
+生データを処理して HTTP として解釈した上で様々な機能を提供します。
+Envoy は HTTP/2, HTTP/1.1 はもちろんのこと WebSocket もサポートします。
+ちなみに公式ドキュメントでは SPDY のサポートはしていない旨の明記がされています。このご時世ならこのサポートは不要でしょうが。
+
 HTTP connection manager がサポートする機能としては以下の通りです。
 
  * HTTP Filter のサポート
@@ -208,8 +211,8 @@ HTTP Filter として標準でサポートされている機能も多々あり�
 
 ==== Cluster
 
-Envoy におけるプロキシ先の upstream ホストをグループ化したものです。
-upstream ホストはヘルスチェックされ生死判定をされ、 Envoy が実際に転送処理を行う際は生きている upstream ホストに対して、ロードバランシングポリシーを加味して転送先を決定することになります。
+Envoy における、プロキシ先の upstream ホストをグループ化したものです。
+Envoy は upstream ホストはヘルスチェックを通して生死判定をして、転送処理を行う際に生きているホストに対してロードバランシングポリシーを加味して転送先を決定します。
 
 ちなみに Envoy が転送処理を行う際に upstream Cluster の host を探す必要があるのですが、これを service discovery と呼びます。
 
