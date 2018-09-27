@@ -714,9 +714,39 @@ EDS API で返却する endpoint の情報の更新が Envoy にも伝わって�
 
 //footnote[envoy_simple_example][syucream/envoy-simple-example: https://github.com/syucream/envoy-simple-example]
 
+
 == おまけ
 
+ここからはおまけとして、本編に組み込むほどではない細かい話題、あるいは筆者が綺麗な構成を考えることをサボったがゆえに後回しにされた話題を紹介します。
+おまけという表現、非常に便利ですよね・・・！
+
 === Istio における Envoy の組み込まれ方
+
+本編で簡単に紹介させて頂いた Istio ですが、このソフトウェアの公式ドキュメント @<fn>{istio_doc_envoy} には以下のような記述があります。
+
+//quote{
+Istio uses an extended version of Envoy proxy.
+//}
+
+Istio では Envoy を独自に拡張して組み込んでいるようです。さてどのような拡張をしているのでしょうか。
+
+と、話題を振った上で直ぐに回答してしまうのですが、 Istio では Envoy の Network Filter と HTTP Filter を実装して Istio のコンポーネントと通信可能にすることで組み込んでいるようです。
+少なくともこの記事を執筆している段階では、 Envoy をフォークしてコアの実装を拡張しているなど大胆な手段は取っていないようです。
+
+もう少し詳細を紹介していきます。
+Istio には Mixer というコンポーネントがあり、こいつがマイクロサービス間のアクセス制御やポリシー制御、メトリクスやログの記録を行います。
+Istio ではこの Mixer と連携可能にすべく、 Network Filter および HTTP Filter を実装している形になります。
+
+Istio において Envoy は Istio Proxy というコンポーネントとして組み込まれます。
+そして Envoy の Network, HTTP Filter として Mixer へ前提条件チェックリクエストを送ってから通信を行ったり、通信後にレポートリクエストを送ったりします。
+Network Filter としては TCP コネクションが作られる際に前提条件チェックを行い、クローズされる際にレポーティングを行います。
+HTTP Filter でも同じようにリクエストを送る前に前提条件チェックを行い、その後レポーティングします。
+HTTP Filter の方が機能的に充実していて、細かな機能のオンオフやチェックリクエストのキャッシュを行うこともできます。
+
+（てきとうに図を描く）
+
+//footnote[istio_proxy][Istio Proxy: https://github.com/istio/proxy]
+//footnote[istio_doc_envoy][What is Istio? - Envoy: https://istio.io/docs/concepts/what-is-istio/#envoy]
 
 === Envoy ソースコードリーティング
 
