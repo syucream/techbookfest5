@@ -316,7 +316,7 @@ Envoy にトレーシングを要求する方法は幾つか存在し、まず�
 
 ==== サーキットブレーカー
 
-分散システムにおいてしばしば障害点を切り離してシステム全体の動作を維持したり遅延を低減させるため、サーキットブレーカーを導入することがあると思われます。
+分散システムにおいてしばしば障害点を切り離してシステム全体の動作を維持したり遅延を低減させるため、サーキットブレーカーを導入することがあると思います。
 サーキットブレーカーのロジックをアプリケーションに含ませるのは手軽ではありますが、やはり個別のプログラミング言語で個々に実装していく必要があります。
 Envoy でサーキットブレーカーをサポートすることにより、これらの問題を軽減することができます。
 
@@ -332,6 +332,23 @@ Envoy では HTTP connection manager により以下に上げるようないく�
 サーキットブレーカーに引っかかる際のリトライ回数制限も設定項目で指定することができ、これに引っかかった際は Envoy の提供する stats のカウンタに記録されます。
 
 //image[syucream_envoy_circuitbreaker][Envoy のサーキットブレーカー][scale=0.8]
+
+==== グローバルレートリミット
+
+Envoy はサービスを維持するため、過度な転送を避けるレートリミット機能も持ちます。
+転送の制限を掛けるという意味では先述のサーキットブレーカーに近い機能ではありますが、この機能の目的と制限を掛ける対象リソースが異なります。
+
+upstream のホストに対する転送制限を行うサーキットブレーカーに対して、グローバルレートリミットでは downstream に近い箇所で制限を行います。
+Envoy は現在 Network level rate limit filter と HTTP level rate limit filter の２つのレートリミット機能を持ち、前者は新しいコネクションを作成する際に、後者はリクエスト毎に制限を超過していないかのチェックを行います。
+さらに Envoy ではレートリミットの状態管理を外部サービスに任せる思想になっています。
+具体的には Rate Limit Service @<fn>{rate_limit_service} インタフェースを実装した gRPC サービスを呼び出すような形になります。
+Lyft ではこの Rate Limit Service のリファレンス実装 @<fn>{lyft_rls_refimpl} として Go 言語で実装して Redis をバックエンドにしたものを公開しています。
+
+グローバルレートリミットによって、（Rate Limit Service の作りによるところはありますが）サーキットブレーカーより柔軟な転送制御ができるようになります。
+また少数でレイテンシが大きめなの upstream ホストに多量の downstream からのリクエストが来るようなケースに、サーキットブレーカーの入念なチューニングなく制限を掛けることもできるようになります。
+
+//footnote[rate_limit_service][rate limit service protocol: https://github.com/envoyproxy/envoy/blob/master/api/envoy/service/ratelimit/v2/rls.proto]
+//footnote[lyft_rls_refimpl][lyft/ratelimit: https://github.com/lyft/ratelimit]
 
 ==== ロードバランサ
 
