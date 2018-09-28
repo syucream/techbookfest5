@@ -115,7 +115,8 @@ Istio @<fn>{istio} は Envoy で Data Plane を提供しつつ Control Plane も
 現状だとターゲットとするインフラとして Kubernetes を前提にしています。
 
 Istio では Envoy を一部拡張して Data Plane を実現するのに使います。
-Kubernetes の用語を混ぜての説明になりますが、 Envoy は Kubernetes でデプロイする Pod 全てに Sidecar として導入され、マイクロサービス間の通信時に Sidecar の Envoy 同士が通信処理を仲介するように動作します。
+Kubernetes の用語を混ぜての説明になりますが、 Istio において Envoy は Kubernetes でデプロイする、 @<kw>{Pod, いくつかのコンテナをまとめたもの} の全てに @<kw>{Sidecar コンテナ, アプリケーションのコンテナとは独立した、同一 Pod に同梱されるコンテナ} として導入されます。
+マイクロサービス間の通信時はこの Sidecar の Envoy 同士が通信処理を仲介するように動作します。
 Kubernetes の世界では Pod の生き死にが頻繁に起こり、 Envoy のルーティングの設定を動的に更新できなければなりません。
 Istio ではこの設定変更を実現するために Pilot というコンポーネントを持ち、 Envoy に対するルーティングルールを設定して Envoy に伝えるようにしています。
 
