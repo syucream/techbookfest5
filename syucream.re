@@ -302,8 +302,11 @@ Envoy が提供する大きな機能であり、マイクロサービスの世�
 しかし境界を明確にして自立分散して動作するマイクロサービスの世界では、従来は出来ていたこれらも対応するのが困難になります。
 代表的な問題として、多量のマイクロサービスが存在してそれらを連携する際に、あるリクエストがどのような経路を辿って関連しているのか紐づけが難しいことが挙げられます。
 
-Envoy ではこの関連付けを行ってオブザーバビリティを向上するための幾つかの仕組みが提供されています。
-この仕組みは Envoy では HTTP connection manager によって提供されます。
+Envoy を作った Lyft では、マイクロサービスを繋いだ広範囲のスコープと個々のマイクロサービスのメトリクスを可視化したダッシュボードの構築をしてオブザーバビリティを確保しています。 @<fn>{lyft_dashboard}
+これによって運用時にどこで障害が起こっていそうか、何が起因になってエラーが起こったかなどが確認しやすくなっています。
+
+Envoy では各マイクロサービスの通信の関連付けを行いオブザーバビリティを向上するための幾つかの仕組みが提供されています。
+これの仕組みは Envoy では HTTP connection manager によって提供されます。
 
  * リクエスト ID の生成
  * LightStep や Zipkin のようなトレーシングサービスとの連携
@@ -319,6 +322,8 @@ Envoy のトレーシングのための ID 発行・伝搬イメージは @<img>
 
 Envoy にトレーシングを要求する方法は幾つか存在し、まず先述の x-client-trace-id または x-envoy-force-trace HTTP ヘッダが付与されている場合行ってくれます。
 その他にも random_sampling ランタイム設定で指定された値に従ってランダムにトレーシングを行ってくれます。
+
+//footnote[lyft_dashboard][Lyft’s Envoy dashboards: https://blog.envoyproxy.io/lyfts-envoy-dashboards-5c91738816b1]
 
 ==== サーキットブレーカー
 
@@ -344,6 +349,7 @@ Envoy では HTTP connection manager により以下に上げるようないく�
 Envoy はサービスを維持するため、過度な転送を避けるレートリミット機能も持ちます。
 転送の制限を掛けるという意味では先述のサーキットブレーカーに近い機能ではありますが、この機能の目的と制限を掛ける対象リソースが異なります。
 
+Envoy のグローバルレートリミットの動作イメージは @<img>{syucream_envoy_ratelimit} の通りです。
 upstream のホストに対する転送制限を行うサーキットブレーカーに対して、グローバルレートリミットでは downstream に近い箇所で制限を行います。
 Envoy は現在 Network level rate limit filter と HTTP level rate limit filter の２つのレートリミット機能を持ち、それぞれ Network Read Filter あるいは HTTP Stream Decode Filter の一種として実装されています。
 また前者は新しいコネクションを作成する際に、後者はリクエスト毎に制限を超過していないかのチェックを行います。
@@ -351,7 +357,7 @@ Envoy は現在 Network level rate limit filter と HTTP level rate limit filter
 具体的には Rate Limit Service @<fn>{rate_limit_service} インタフェースを実装した gRPC サービスを呼び出すような形になります。
 Lyft ではこの Rate Limit Service のリファレンス実装 @<fn>{lyft_rls_refimpl} として Go 言語で実装して Redis をバックエンドにしたものを公開しています。
 
-（いい感じの図）
+//image[syucream_envoy_ratelimit][Envoy のレートリミット][scale=0.7]
 
 グローバルレートリミットによって、（Rate Limit Service の作りによるところはありますが）サーキットブレーカーより柔軟な転送制御ができるようになります。
 また少数でレイテンシが大きめなの upstream ホストに多量の downstream からのリクエストが来るようなケースに、サーキットブレーカーの入念なチューニングなく制限を掛けることもできるようになります。
@@ -398,8 +404,10 @@ Envoy の公式ページでは、 Envoy は各アプリケーションとセッ�
 また Envoy では xDS API の提供により最初から動的に設定を変更していくことをサポートしている点も、大きな差分になるとも考えられます。
 
 現状だと Istio との統合も考えると Envoy の今後が期待できるところですが、最近は nginx で gRPC のサポートが入ったり引き続き活発な開発が続いています。
+更に Istio と nginx を統合させてサービスメッシュを構築するプロジェクト @<fn>{nginmesh} も、あまり活発ではないものの開発が進められているようです。
 もしかしたら今後、解決したい問題によって使用するプロキシを選択してサービスメッシュを構築できる未来が訪れるのかも知れません。
 
+//footnote[nginmesh][nginxinc/nginmesh: https://github.com/nginxinc/nginmesh]
 
 == Envoy の試し方
 
@@ -778,7 +786,7 @@ Istio では Envoy を独自に拡張して組み込んでいるようです。�
 と、話題を振った上で直ぐに回答してしまうのですが、 Istio では Envoy の Network Filter と HTTP Filter を実装して Istio のコンポーネントと通信可能にすることで組み込んでいるようです。
 少なくともこの記事を執筆している段階では、 Envoy をフォークしてコアの実装を拡張しているなど大胆な手段は取っていないようです。
 
-もう少し詳細を紹介していきます。
+Envoy とその Filter と、 Istio の連携イメージは @<img>{syucream_envoy_istio_mixer} の通りです。
 Istio には Mixer というコンポーネントがあり、こいつがマイクロサービス間のアクセス制御やポリシー制御、メトリクスやログの記録を行います。
 Istio ではこの Mixer と連携可能にすべく、 Network Filter および HTTP Filter を実装している形になります。
 
@@ -788,7 +796,7 @@ Network Filter としては TCP コネクションが作られる際に前提条
 HTTP Filter でも同じようにリクエストを送る前に前提条件チェックを行い、その後レポーティングします。
 HTTP Filter の方が機能的に充実していて、細かな機能のオンオフやチェックリクエストのキャッシュを行うこともできます。
 
-（てきとうに図を描く）
+//image[syucream_envoy_istio_mixer][Envoy と Istio Mixer][scale=0.8]
 
 //footnote[istio_proxy][Istio Proxy: https://github.com/istio/proxy]
 //footnote[istio_doc_envoy][What is Istio? - Envoy: https://istio.io/docs/concepts/what-is-istio/#envoy]
