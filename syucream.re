@@ -816,6 +816,13 @@ Network Filter としては TCP コネクションが作られる際に前提条
 HTTP Filter でも同じようにリクエストを送る前に前提条件チェックを行い、その後レポーティングします。
 HTTP Filter の方が機能的に充実していて、細かな機能のオンオフやチェックリクエストのキャッシュを行うこともできます。
 
+余談ですがこの Mixer Filter の構成、筆者としてはパフォーマンス的な改善の余地があるのではないかと勘ぐってしまいます。
+というのも Envoy へのリクエストドリブンで Mixer に対して問い合わせてチェックを行うとなると、その通信分リクエストの転送処理が遅れるのでは無いかと考えたためです。
+HTTP Filter においては Mixer への問い合わせ結果をキャッシュできるのである程度軽減はされるかも知れませんが、このキャッシュのライフタイムを考えるのもややコストが高いようにも思えます。
+筆者はまだ本格的に Istio を試したりパフォーマンステストを行ったりなどを行っていないので自信はありませんが、例えば xDS API のようにリクエストの処理とは別のパスで非同期に、 Mixer が提供するアクセス制御やポリシーなどの情報を Envoy に渡せるとよいのではと考えます。
+
+ともかく Istio と Envoy の連携部分に関してはサービスメッシュの構築において重要度が高く、今後の発展や技術的な詳細も追っていきたいですね！
+
 //image[syucream_envoy_istio_mixer][Envoy と Istio Mixer][scale=0.9]
 
 //footnote[istio_proxy][Istio Proxy: https://github.com/istio/proxy]
@@ -827,8 +834,8 @@ HTTP Filter の方が機能的に充実していて、細かな機能のオン�
 折角なので把握した限りの内容を本記事のおまけとして掲載させていただこうと思います。
 このおまけの内容はあくまで筆者が読んだ範囲での理解であり、網羅性や正確性を担保できないことと、Envoy-1.7.1 を対象にしていることを予めご了承ください。
 
-まず依存ライブラリについてですが、 Envoy は Boost などの大きめの外部ライブラリをあまり使わず、標準ライブラリと自前での実装でなるべく完結させようとしているようです。
-ただしイベント処理については前述の通り libevent に依存しています。また他の大きめの使用ライブラリとしては HTTP/2 処理に nghttp2 を、 HTTP Filter の Lua スクリプティングサポートのため LuaJIT に依存しています。
+まず依存ライブラリについてですが、 Envoy は Boost @<fn>{boost} などの大きめの外部ライブラリをあまり使わず、標準ライブラリと自前での実装でなるべく完結させようとしているようです。
+ただしイベント処理については前述の通り libevent に依存しています。また他の大きめの使用ライブラリとしては HTTP/2 処理に nghttp2 @<fn>{nghttp2} を、 HTTP Filter の Lua スクリプティングサポートのため LuaJIT @<fn>{luajit} に依存しています。
 
 ビルドツールとしては Envoy は Bazel @<fn>{bazel} という Google 発のツールを使っているようです。
 Bazel の主要な設定ファイルは bazel/ に配置されており、また各種サブディレクトリにも関連する BUILD ファイルが配置されています。
@@ -855,6 +862,9 @@ Dispatcher は worker スレッドが処理すべきイベントに対する操�
 時間が限られていたため、記事の執筆に必要であろうスレッドやイベント処理部分のみを読んだ限りになってしまったため、筆者のソースコードリーティングは以上までとなりました。
 時間が許されていれば HTTP connection manager や Cluster 、 xDS API 関連の実装を読み解くと面白いのではないかと考えています。
 
+//footnote[boost][Boost C++ Libraries: https://www.boost.org/]
+//footnote[nghttp2][nghttp2/nghttp2: https://github.com/nghttp2/nghttp2]
+//footnote[luajit][The LuaJIT Project: http://luajit.org/]
 //footnote[bazel][Bazel - a fast, scalable, multi-language and extensible build system" - Bazel: https://bazel.build/]
 
 
