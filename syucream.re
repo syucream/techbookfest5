@@ -134,7 +134,7 @@ Istio ではこの設定変更を実現するために Pilot というコンポ�
 Envoy は先述の通りハイパフォーマンスであることを目指しており、モダンなプロキシが取るようなマルチスレッド・イベントドリブンな並列 I/O 処理を実装しています。
 Envoy のアーキテクチャの概要を図示したものが @<img>{syucream_envoy_eventhandling} になります。
 
-//image[syucream_envoy_eventhandling][Envoy のイベントハンドリング][scale=0.9]
+//image[syucream_envoy_eventhandling][Envoy のイベントハンドリング]
 
 Envoy のスレッドには役割分担があり、 main() から開始された単一の main スレッドとネットワーク I/O などのイベントを処理する複数の worker スレッドが存在します。
 worker スレッドの制御には pthread API を利用しています。 C++11 でサポートが入った std::thread の機能はほとんど使われておりません。
@@ -317,7 +317,7 @@ Envoy では各マイクロサービスの通信の関連付けを行いオブ�
 
 Envoy のトレーシングのための ID 発行・伝搬イメージは @<img>{syucream_envoy_tracing} の通りです。
 
-//image[syucream_envoy_tracing][Envoy のトレーシング][scale=0.7]
+//image[syucream_envoy_tracing][Envoy のトレーシング][scale=0.8]
 
 リクエスト ID として Envoy では x-request-id HTTP ヘッダを伝搬し、また必要であれば UUID を生成してヘッダの値として付与してくれます。
 このリクエスト ID をログに記録しておくことで、後で複数のマイクロサービスのログを x-request-id で突き合わせてリクエストのフローを確認することができます。
@@ -805,7 +805,7 @@ Network Filter としては TCP コネクションが作られる際に前提条
 HTTP Filter でも同じようにリクエストを送る前に前提条件チェックを行い、その後レポーティングします。
 HTTP Filter の方が機能的に充実していて、細かな機能のオンオフやチェックリクエストのキャッシュを行うこともできます。
 
-//image[syucream_envoy_istio_mixer][Envoy と Istio Mixer][scale=0.8]
+//image[syucream_envoy_istio_mixer][Envoy と Istio Mixer][scale=0.9]
 
 //footnote[istio_proxy][Istio Proxy: https://github.com/istio/proxy]
 //footnote[istio_doc_envoy][What is Istio? - Envoy: https://istio.io/docs/concepts/what-is-istio/#envoy]
