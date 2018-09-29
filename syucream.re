@@ -535,6 +535,7 @@ EDS API は今回 REST API と提供するのでその指定と、 Envoy が EDS
 //source[etc/envoy/envoy.yaml]{
 ...
 static_resources:
+  # Listener の設定。前の例とほぼ変わらない内容
   listeners:
   - name: listener_0
     address:
@@ -559,15 +560,19 @@ static_resources:
                   cluster: cluster_0
           http_filters:
           - name: envoy.router
+
   clusters:
+  # EDS API の Cluster 設定
   - name: eds_cluster
     type: LOGICAL_DNS
     connect_timeout: 0.25s
     dns_lookup_family: V4_ONLY
     hosts:
       - socket_address:
+          # httpxds という名前の upstream ホストを参照する
           address: httpxds
           port_value: 8080
+  # EDS API から返却された endpoint を参照する Cluster 設定
   - name: cluster_0
     type: EDS
     connect_timeout: 0.25s
@@ -651,6 +656,7 @@ server {
 version: '3'
 
 services:
+  # EDS API や endpoint と疎通できる Envoy
   envoy:
     container_name: envoy
     image: envoyproxy/envoy
@@ -671,6 +677,7 @@ services:
         --service-node envoy0 \
         -c /etc/envoy/envoy.yaml
 
+  # nginx based EDS API
   httpxds:
     container_name: httpxds
     image: nginx
