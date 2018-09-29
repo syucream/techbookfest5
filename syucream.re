@@ -44,7 +44,7 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 
 //image[syucream_microservices_overview][マイクロサービスのイメージ][scale=0.7]
 
-各マイクロサービスは疎結合ゆえ他機能に非依存な技術選択を行うことができ、たとえばそのマイクロサービスが担う責務を担うのにもっとも適切なプログラミング言語やデータベースを選択できます。
+各マイクロサービスは疎結合ゆえ他機能に非依存な技術選択を行うことができ、たとえばそのマイクロサービスが担う責務を実現するのにもっとも適切なプログラミング言語やデータベースを選択できます。
 また特定のマイクロサービスのみスケールさせて少数のリソースで提供するサービス全体を安定運用したり、 @<kw>{サーキットブレーカー, 家庭にある電源のブレーカーを思い出すとイメージしやすいでしょう} のような仕組みを導入することで、動作しないあるいは動作が遅延している機能の提供を諦めつつ全体のサービスとしては機能を維持する選択もできます。
 加えてマイクロサービスの境界を適切に線引きすることで、各々のマイクロサービスの開発・デプロイ・運用を個別のチームで実施することができ、ビジネスをより早く進めることができるかも知れません。
 もちろんマイクロサービスアーキテクチャに沿う際にどこまで自由度を与えるか、どこまで細分化するかは議論の余地があります。例えば Netflix では主に Java でマイクロサービスを実装することが多いようで、 Java 実装のマイクロサービス向けの共有ライブラリが少なくとも数年前は存在したようです。
@@ -143,12 +143,13 @@ worker スレッドの制御には pthread API を利用しています。 C++11
 スレッドの役割に関しては実はこの他にも、アクセスログの出力などファイルフラッシュ時に含まれるブロッキング処理をオフロードするためのファイルフラッシュスレッドなどもあります。
 @<comment>{textlint-enable}
 
-またイベント処理に関しては libevent @<fn>{libevent} を使っているようです。
+またイベント処理に関しては libevent @<fn>{libevent} を使っています。
 Envoy では思想として 100 ％ノンブロッキングをうたっており、ネットワークやファイルの I/O 、内部的な処理をなるべくイベントドリブンで処理可能にしています。
 各ワーカスレッドはそれぞれ libevent でイベントループを回すための、 Envoy 内部で Dispatcher と呼ばれる構造を持ち、これを介してイベントのハンドリングを可能にしています。
 
 Envoy では更にスレッドローカルストレージを抽象化した実装を持ち、スレッド間の共有データを排除してロックなどによるパフォーマンス低下を回避しています。
-スレッドローカルストレージでは C++11 からサポートが入った thread_local キーワードを用いて、スレッド毎に割り当てられた記憶領域に任意の動的生成されたオブジェクトを格納できます。どうやらここでは pthread API の pthread_get_specific() などは使っていないようです。
+スレッドローカルストレージでは C++11 からサポートが入った thread_local キーワードを用いて、スレッド毎に割り当てられた記憶領域に任意の動的生成されたオブジェクトを格納できます。
+どうやらここでは pthread API の pthread_get_specific() などは使っていないようです。
 またスレッドローカルストレージでは、 slot という main スレッドからイベントループを介して（具体的には Dispatcher がサポートする、 0 秒後にタイマーイベントを発火させるメンバー関数を使って）値の更新が可能な領域も持ちます。
 
 Envoy のアーキテクチャに関してより深く知りたい方は、 Kubecon EU 2018 の資料 @<fn>{kubecon_eu_2018} を参照してみると良いかもしれません！
@@ -168,8 +169,8 @@ Envoy ではネットワーク通信やプロキシ処理における様々な�
 
 ==== Listener
 
-Envoy がクライアント、 Envoy の用語としては downstream から受け付けるコネクションを受け付けるネットワークロケーションです。
-現在は TCP listener のみサポートしているようです。
+Envoy が @<kw>{downstream, Envoy に対してリクエストを送るクライアント} から受け付けるコネクションを受け付けるネットワークロケーションです。
+現在は TCP listener のみサポートしています。
 Envoy では複数の Listener に対応しており、この Listener に対して後述の Filter を設定して通信制御や Cluster への転送を行います。
 
 ==== Listener Filter
@@ -267,7 +268,7 @@ gRPC を使う方法の場合は RDS と EDS 、のような複数の異なる�
 //image[syucream_envoy_xdsapi][Envoy xDS API][scale=0.9]
 
 xDS API の存在は Envoy の運用に柔軟性を与え、また Istio のような Control Plane の実現を容易にしています。
-実際に xDS API を利用して、 Cookpad では Istio より小規模な自作の Control Plane を構築 @<fn>{servicemesh_and_cookpad} するなど活用しているようです。
+実際に xDS API を利用して、 Cookpad では Istio より小規模な自作の Control Plane を構築 @<fn>{servicemesh_and_cookpad} するなど活用しています。
 
 //footnote[protobuf][Protocol Buffer: https://developers.google.com/protocol-buffers/]
 //footnote[xds_protocol][xDS REST and gRPC protocol: https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md]
@@ -289,7 +290,7 @@ Static はもっともシンプルな、直接 upstream host の IP アドレス
 
 Strict DNS は DNS を使った upstream host の解決方法です。この際に複数の IP アドレスが返ってきた場合はロードバランシングされるよう Envoy が調整してくれます。
 
-Logical DNS は Strict DNS と似た DNS を使った方法なのですが、 upstream host にコネクションを張るにあたり複数 IP アドレスが返却されてもその中の最初の IP アドレスのみを用います。これは DNS ラウンドロビンなど Envoy 以外で負荷分散することを考える際に有用で、 Envoy 公式のドキュメントとしては大規模な Web サービスと通信する際は Logical DNS を使うと良いような記述があります。
+Logical DNS は Strict DNS と似た DNS を使った方法なのですが、 upstream host にコネクションを張るにあたり複数 IP アドレスが返却されてもその中の最初の IP アドレスのみを用います。これは DNS ラウンドロビンなど Envoy 以外で負荷分散することを考える際に有用で、 Envoy 公式のドキュメントとしては大規模な Web サービスと通信する際は Logical DNS を使うことを推奨する記述があります。
 
 Original Destination は iptables の REDIRECT または TPROXY ターゲットを使って、あるいは HAProxy Proxy Protocol @<fn>{proxy_protocol} を伴って、 Envoy にリクエストがリダイレクトされた際の upstream host の解決方法です。この場合 Envoy はクライアントが送りたいオリジナルの送信先を upstream host として解決してくれます。 Original Destination は HTTP レベルでも使用することができ、x-envoy-orignal-dst-host ヘッダの値に upstream host として扱う IP アドレスとポート番号を指定できます。
 
@@ -455,6 +456,7 @@ x-xss-protection: 1; mode=block
 //source[/etc/envoy/envoy.yaml]{
 ...
 static_resources:
+  # Listener の設定
   listeners:
   - name: listener_0
     address:
@@ -480,6 +482,8 @@ static_resources:
                   cluster: google.com
           http_filters:
           - name: envoy.router
+
+  # Cluster の設定
   clusters:
   - name: service_google
     connect_timeout: 0.25s
@@ -662,7 +666,10 @@ services:
     networks:
       - app_net
     command: |
-      /usr/local/bin/envoy --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml
+      /usr/local/bin/envoy \
+        --service-cluster cluster0 \
+        --service-node envoy0 \
+        -c /etc/envoy/envoy.yaml
 
   httpxds:
     container_name: httpxds
