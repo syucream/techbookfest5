@@ -9,7 +9,7 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 国内でも例えば Cookpad が 2014 年にマイクロサービスを意識し始めたらしいブログ記事 @<fn>{cookpad_techblog} を公開しています。
 かくいう筆者も業務上マイクロサービスを意識したアーキテクチャとソフトウェア開発・組織の構築に、まさに揉まれている最中でございます。
 
-本記事ではそんなマイクロサービスの文脈でよく出てくる技術要素の一つであるサービスメッシュに関わる部分と、 Envoy というリバースプロキシについて触れていきます。
+本記事ではそんなマイクロサービスの文脈でよく出てくる技術要素の一つであるサービスメッシュに関わる部分と、 Envoy というプロキシサーバについて触れていきます。
 
 マイクロサービスは真面目に取り組むのなら、単にソフトウェア開発の仕方を少し変えるだとかツールを導入する程度では済まない変更が起こりうり、しばしば痛みを伴うものかと筆者は考えています。
 本記事が読者の皆様にとっての、今後のマイクロサービス化の奔流を乗り越える道標のひとつとして機能することを願っています。
@@ -31,15 +31,14 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 //image[syucream_monolith_overview][モノリスのイメージ][scale=0.7]
 
 このような構成は今日において珍しくなく、実現するためのライブラリやフレームワークは充実していると言えるでしょう。
-ビジネスロジックを実現するシステムも一箇所に集中しているため、設計がしっかりしていれば重要な箇所が把握しやすく、また共通ロジックは気軽にライブラリ化して開発効率を上げることもできるでしょう。
+ビジネスロジックを実現するシステムも一箇所に集中しているため、設計がしっかりしていれば重要な箇所が把握しやすく、また共通ロジックは気軽にライブラリ化して開発効率を上げることもできます。
 
 しかしながらアプリケーションが実現するビジネスロジックが複雑化し、実装に関わるエンジニアが増員されるにつれて統制を取って開発を進めていくのが難しくなりがちです。
 またモノリスであるがゆえ、エラーハンドリング漏れや遅延の発生がアプリケーション全体に影響しかねません。
 
 === マイクロサービスアーキテクチャ
 
-これに対するマイクロサービスアーキテクチャですが、 Netflix などの巨大なサービス群を支えるアーキテクチャの思想のひとつです。
-具体的には @<img>{syucream_microservices_overview} のようにあるサービスの機能や責任を細分化し、小規模で自律するマイクロサービスを協調動作させることで Web サービスなどの機能提供を行います。
+これに対するマイクロサービスアーキテクチャですが、 @<img>{syucream_microservices_overview} のようにあるサービスの機能や責任を細分化し、小規模で自律するマイクロサービスを協調動作させることで Web サービスなどの機能提供を行います。
 各マイクロサービスとしては自身の責任範囲に集中することになります。
 
 //image[syucream_microservices_overview][マイクロサービスのイメージ][scale=0.7]
@@ -55,8 +54,8 @@ Netflix などの大型サービスの事例を鑑みて、俺も俺もと足を
 もしかしたら組織編成になじむかの問題など、技術的でない障壁につまづく可能性もあります。
 筆者としてもマイクロサービスアーキテクチャは馴染まないケースが多々存在し、これに従うにしても組織としてある程度覚悟をしてリスクを承知の上で取り掛かる必要があると考えています。
 
-
-マイクロサービスアーキテクチャに関して深く知るための資料のひとつとして Martin Fowler 氏の記事 @<fn>{microservices} などの記事が参考になると思われます。
+マイクロサービスアーキテクチャはそれがもたらすメリットやデメリット、成功事例や技術スタックなどここでは語りきれないほど多くの要素をもちます。
+より深く知るための資料としてまずは Martin Fowler 氏の記事 @<fn>{microservices} などが参考になると思われます。
 
 //footnote[microservices][Microservices - Martin Fowler: https://martinfowler.com/articles/microservices.html]
 
@@ -86,9 +85,10 @@ Envoy Proxy @<fn>{envoyproxy} は Cloud Native Computing Foundation @<fn>{cncf} 
 
 //image[syucream_proxyserver][プロキシサーバを使った構成例][scale=0.8]
 
-Envoy は C++11 で実装された、ハイパフォーマンスでマイクロサービスの世界におけるネットワーク通信とオブサーバビリティの問題を解決することを目指しています。
+Envoy はハイパフォーマンスでマイクロサービスの世界におけるネットワーク通信とオブサーバビリティの問題を解決することを目指しています。
 具体的に Envoy が持つ機能・特徴は以下のようになります。
 
+ * C++11 で実装されたモダンなプロキシサーバ
  * 省メモリで高性能
  * HTTP/2 と gRPC のサポート (もちろん HTTP/1.1 もサポートしている)
  * 自動リトライ
@@ -111,7 +111,7 @@ Envoy の担う機能はアプリケーションとはコンテナレベルで�
 
 === Istio とは
 
-Istio @<fn>{istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行うソフトウェアです。
+Istio @<fn>{istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行う、マイクロサービスの世界でサービスメッシュと呼ばれる機能を提供するソフトウェアです。
 現状だとターゲットとするインフラとして Kubernetes を前提にしています。
 
 Istio では Envoy を一部拡張して Data Plane を実現するのに使います。
@@ -134,17 +134,20 @@ Istio ではこの設定変更を実現するために Pilot というコンポ�
 Envoy は先述の通りハイパフォーマンスであることを目指しており、モダンなプロキシが取るようなマルチスレッド・イベントドリブンな並列 I/O 処理を実装しています。
 Envoy のアーキテクチャの概要を図示したものが @<img>{syucream_envoy_eventhandling} になります。
 
-//image[syucream_envoy_eventhandling][Envoy のイベントハンドリング][scale=0.9]
+//image[syucream_envoy_eventhandling][Envoy のイベントハンドリング]
 
 Envoy のスレッドには役割分担があり、 main() から開始された単一の main スレッドとネットワーク I/O などのイベントを処理する複数の worker スレッドが存在します。
 worker スレッドの制御には pthread API を利用しています。 C++11 でサポートが入った std::thread の機能はほとんど使われておりません。
 なおこの worker スレッドの数は Envoy のコマンドラインオプション --concurrency で指定可能であり、指定しない場合はハードウェアスレッド数 ( std::thread::hardware_concurrency() から与えられる)分実行されるようです。
 @<comment>{textlint-disable}
-スレッドの役割に関しては実はこの他にも、アクセスログの出力などファイルフラッシュ時に含まれるブロッキング処理をオフロードするためのファイルフラッシュスレッドなどもあります。
+master, worker スレッド以外にも実は、アクセスログの出力などファイルフラッシュ時に含まれるブロッキング処理をオフロードするためのファイルフラッシュスレッドなども存在します。
 @<comment>{textlint-enable}
 
 またイベント処理に関しては libevent @<fn>{libevent} を使っています。
 Envoy では思想として 100 ％ノンブロッキングをうたっており、ネットワークやファイルの I/O 、内部的な処理をなるべくイベントドリブンで処理可能にしています。
+@<comment>{textlint-disable}
+ブロッキング処理を伴うファイルのフラッシュを worker スレッドから切り離されたファイルフラッシュスレッドを用意するあたり、この思想は実装に色濃く反映されていると言えるでしょう。
+@<comment>{textlint-enable}
 各ワーカスレッドはそれぞれ libevent でイベントループを回すための、 Envoy 内部で Dispatcher と呼ばれる構造を持ち、これを介してイベントのハンドリングを可能にしています。
 
 Envoy では更にスレッドローカルストレージを抽象化した実装を持ち、スレッド間の共有データを排除してロックなどによるパフォーマンス低下を回避しています。
@@ -234,7 +237,7 @@ upstream のホストへの接続はコネクションプールという機構�
 === Envoy の特徴的な機能説明
 
 Envoy には先に挙げたようなユニークな機能がいくつか存在します。
-ここでは xDS API と分散トレーシングに関して深掘りしてみようと思います。
+ここでは xDS API と分散トレーシング、そしてネットワーク通信に関わる主要な機能について深掘りしてみようと思います。
 
 ==== xDS API
 
@@ -256,10 +259,9 @@ xDS API の定義は Protocol Buffer @<fn>{protobuf} によって定義されて
 xDS API は @<img>{syucream_envoy_xdsapi} に示すように、 3 つの設定変更のための方法をサポートします。
 
 1 個目は最もシンプルで、ファイルとして xDS API に設定内容を渡すことができます。
-
 ファイルの形式は xDS API の定義に従った DiscoveryResponse メッセージ型で Protocol Buffer でエンコードされたバイナリや JSON 、 YAML が利用できます。
-2 個目は gRPC でストリーミングで設定値を渡すものになります。この場合も Protocol Buffer のレスポンス用メッセージ型を渡すことで設定変更が可能になります。
 
+2 個目は gRPC でストリーミングで設定値を渡すものになります。この場合も Protocol Buffer のレスポンス用メッセージ型を渡すことで設定変更が可能になります。
 gRPC を使う方法の場合は RDS と EDS 、のような複数の異なる設定項目をやり取り可能にする ADS(Aggregated Discovery Services) を利用することができ、 xDS API 提供の障壁を下げることができます。
 
 3 個目は JSON REST API を提供する方法になります。この場合 Envoy が指定の API のエンドポイントをポーリングして、設定値に変更があった際に更新してくれます。
@@ -300,9 +302,9 @@ Original Destination は iptables の REDIRECT または TPROXY ターゲット�
 
 ==== トレーシング
 
-Envoy が提供する大きな機能であり、マイクロサービスの世界で問題になることとしてオブザーバビリティが挙げられます。
+Envoy が提供する大きな機能でありマイクロサービスの世界で問題になることとして、オブザーバビリティが挙げられます。
 例えばこれが 1 つのモノリスで構築されたシステムであれば開発時にデバッグをしたければ従来のデバッガを使ったり、静的解析してコールグラフを出したりスタックトレースを出力してみたりすることができます。
-しかし境界を明確にして自立分散して動作するマイクロサービスの世界では、従来は出来ていたこれらも対応するのが困難になります。
+しかし境界を明確にして自立分散して動作するマイクロサービスの世界では、従来は出来ていたこれらも困難になります。
 代表的な問題として、多量のマイクロサービスが存在してそれらを連携する際に、あるリクエストがどのような経路を辿って関連しているのか紐づけが難しいことが挙げられます。
 
 Envoy を作った Lyft では、マイクロサービスを繋いだ広範囲のスコープと個々のマイクロサービスのメトリクスを可視化したダッシュボードの構築をしてオブザーバビリティを確保しています。 @<fn>{lyft_dashboard}
@@ -317,7 +319,7 @@ Envoy では各マイクロサービスの通信の関連付けを行いオブ�
 
 Envoy のトレーシングのための ID 発行・伝搬イメージは @<img>{syucream_envoy_tracing} の通りです。
 
-//image[syucream_envoy_tracing][Envoy のトレーシング][scale=0.7]
+//image[syucream_envoy_tracing][Envoy のトレーシング][scale=0.8]
 
 リクエスト ID として Envoy では x-request-id HTTP ヘッダを伝搬し、また必要であれば UUID を生成してヘッダの値として付与してくれます。
 このリクエスト ID をログに記録しておくことで、後で複数のマイクロサービスのログを x-request-id で突き合わせてリクエストのフローを確認することができます。
@@ -530,11 +532,12 @@ xDS API は gRPC サーバを立ててストリームで DiscoveryResponse メ�
 
 Envoy と EDS API の連携のため、 Envoy の設定ファイルには upstream Cluster の endpoint の解決方法を EDS にします。
 また EDS API として参照する先の Cluster も別途設定しておきます。
-EDS API は今回 REST API と提供するのでその指定と、 Envoy が EDS API を参照しにいく頻度を指定しておきます。
+EDS API は今回 REST API と提供するのでその指定と、 Envoy が EDS API を参照する頻度を指定しておきます。
 
 //source[etc/envoy/envoy.yaml]{
 ...
 static_resources:
+  # Listener の設定。前の例とほぼ変わらない内容
   listeners:
   - name: listener_0
     address:
@@ -559,15 +562,19 @@ static_resources:
                   cluster: cluster_0
           http_filters:
           - name: envoy.router
+
   clusters:
+  # EDS API の Cluster 設定
   - name: eds_cluster
     type: LOGICAL_DNS
     connect_timeout: 0.25s
     dns_lookup_family: V4_ONLY
     hosts:
       - socket_address:
+          # httpxds という名前の upstream ホストを参照する
           address: httpxds
           port_value: 8080
+  # EDS API から返却された endpoint を参照する Cluster 設定
   - name: cluster_0
     type: EDS
     connect_timeout: 0.25s
@@ -628,6 +635,8 @@ static_resources:
 
 
 この JSON ファイルを配信する方法は何でもいいのですが、今回は nginx で EDS API のエンドポイント v2/discovery:endpoints でリクエストされた際に返却できるようにしてみます。
+ここでちょっとした注意点なのですが、 xDS API を JSON REST API 形式で立てる場合 Envoy は仕様上 POST メソッドでリクエストを送ってきます。
+nginx で POST メソッドでのリクエストに対して静的なレスポンスを返す際、 POST メソッドを許可するような設定をする必要があります。
 
 //source[etc/httpxds/xds.conf]{
 server {
@@ -651,6 +660,7 @@ server {
 version: '3'
 
 services:
+  # EDS API や endpoint と疎通できる Envoy
   envoy:
     container_name: envoy
     image: envoyproxy/envoy
@@ -671,6 +681,7 @@ services:
         --service-node envoy0 \
         -c /etc/envoy/envoy.yaml
 
+  # nginx based EDS API
   httpxds:
     container_name: httpxds
     image: nginx
@@ -680,6 +691,7 @@ services:
     networks:
       - app_net
 
+  # EDS API で返す用の IP アドレスを決めておく
   endpoint0:
     container_name: endpoint0
     image: nginx
@@ -689,6 +701,7 @@ services:
       app_net:
         ipv4_address: 172.16.238.10
 
+  # EDS API で返す用の IP アドレスを決めておく
   endpoint1:
     container_name: endpoint1
     image: nginx
@@ -713,6 +726,9 @@ docker-compose で各コンテナを動作させて、実際に Envoy へリク�
 //cmd{
 $ docker-compose up
 ...
+# EDS API に Envoy からのリクエストが定期的に来る
+httpxds      | 172.16.238.3 - - [22/Sep/2018:14:39:21 +0000] "POST /v2/discovery:endpoints HTTP/1.1" 200 897 "-" "-" "172.16.238.3"
+...
 $ curl http://localhost:10000/whoami.html
 ...
 $ curl http://localhost:10000/whoami.html
@@ -728,6 +744,7 @@ endpoint1    | 172.16.238.3 - - [22/Sep/2018:14:40:28 +0000] "GET /whoami.html H
 
 以上により、無事に EDS API により配信された endpoint へ、負荷分散されつつリクエストが転送されたことが確認できました！
 加えて EDS API のレスポンスを変更したらどうなるでしょうか。
+ここでは EDS API で返却する endpoint を endpoint0 のみに限定するよう修正してみます。
 
 //source[etc/httpxds/eds.json]{
 {
@@ -772,7 +789,8 @@ endpoint0    | 172.16.238.3 - - [22/Sep/2018:14:44:38 +0000] "GET /whoami.html H
 ...
 //}
 
-EDS API で返却する endpoint の情報の更新が Envoy にも伝わっていることが見て取れます。
+endpoint0 のみ返却するよう修正した後は、 endpoint1 へリクエストが到達せず endpoint0 のみが処理するようになっていることがわかります。
+これにより EDS API で返却する endpoint の情報の更新が Envoy にも伝わっていることが見て取れます。
 
 //footnote[envoy_simple_example][syucream/envoy-simple-example: https://github.com/syucream/envoy-simple-example]
 
@@ -805,7 +823,14 @@ Network Filter としては TCP コネクションが作られる際に前提条
 HTTP Filter でも同じようにリクエストを送る前に前提条件チェックを行い、その後レポーティングします。
 HTTP Filter の方が機能的に充実していて、細かな機能のオンオフやチェックリクエストのキャッシュを行うこともできます。
 
-//image[syucream_envoy_istio_mixer][Envoy と Istio Mixer][scale=0.8]
+余談ですがこの Mixer Filter の構成、筆者としてはパフォーマンス的な改善の余地があるのではないかと勘ぐってしまいます。
+というのも Envoy へのリクエストドリブンで Mixer に対して問い合わせてチェックを行うとなると、その通信分リクエストの転送処理が遅れるのでは無いかと考えたためです。
+HTTP Filter においては Mixer への問い合わせ結果をキャッシュできるのである程度軽減はされるかも知れませんが、このキャッシュのライフタイムを考えるのもややコストが高いようにも思えます。
+筆者はまだ本格的に Istio を試したりパフォーマンステストを行ったりなどを行っていないので自信はありませんが、例えば xDS API のようにリクエストの処理とは別のパスで非同期に、 Mixer が提供するアクセス制御やポリシーなどの情報を Envoy に渡せるとよいのではと考えます。
+
+ともかく Istio と Envoy の連携部分に関してはサービスメッシュの構築において重要度が高く、今後の発展や技術的な詳細も追っていきたいですね！
+
+//image[syucream_envoy_istio_mixer][Envoy と Istio Mixer][scale=0.9]
 
 //footnote[istio_proxy][Istio Proxy: https://github.com/istio/proxy]
 //footnote[istio_doc_envoy][What is Istio? - Envoy: https://istio.io/docs/concepts/what-is-istio/#envoy]
@@ -816,8 +841,12 @@ HTTP Filter の方が機能的に充実していて、細かな機能のオン�
 折角なので把握した限りの内容を本記事のおまけとして掲載させていただこうと思います。
 このおまけの内容はあくまで筆者が読んだ範囲での理解であり、網羅性や正確性を担保できないことと、Envoy-1.7.1 を対象にしていることを予めご了承ください。
 
-まず依存ライブラリについてですが、 Envoy は Boost などの大きめの外部ライブラリをあまり使わず、標準ライブラリと自前での実装でなるべく完結させようとしているようです。
-ただしイベント処理については前述の通り libevent に依存しています。また他の大きめの使用ライブラリとしては HTTP/2 処理に nghttp2 を、 HTTP Filter の Lua スクリプティングサポートのため LuaJIT に依存しています。
+まず依存ライブラリについてですが、 Envoy は Boost @<fn>{boost} などの大きめの外部ライブラリをあまり使わず、標準ライブラリと自前での実装でなるべく完結させようとしているようです。
+ただしイベント処理については前述の通り libevent に依存しています。また他の大きめの使用ライブラリとしては HTTP/2 処理に nghttp2 @<fn>{nghttp2} を、 HTTP Filter の Lua スクリプティングサポートのため LuaJIT @<fn>{luajit} に依存しています。
+
+ビルドツールとしては Envoy は Bazel @<fn>{bazel} という Google 発のツールを使っているようです。
+Bazel の主要な設定ファイルは bazel/ に配置されており、また各種サブディレクトリにも関連する BUILD ファイルが配置されています。
+ちなみに前述の Istio Proxy でも Envoy にならって Bazel でビルドするように構築されています。
 
 Envoy の基本的なヘッダファイルは典型的な C++ プロジェクトがそうしているように include/envoy/ に存在します。
 ここに格納されているヘッダファイルの内容のクラス名などは本記事で出てくるあるいは設定ファイルでよく使われる用語が多々出てきます。
@@ -827,25 +856,40 @@ Envoy の基本的なヘッダファイルは典型的な C++ プロジェクト
 
 Envoy の実装の多くは source/ に存在します。
 その中でも広く使われる機能は common/ に、 main() から開始する処理のエントリポイントに当たる部分は exe/ に、サーバの初期化や設定ファイルの読み込み、ワーカスレッドの起動や停止などサーバとしてのコア実装部分は server/ に存在します。
-筆者が読んだ限りで複雑かつ重要である server/ について更に踏み込みますと、 この中でも Envoy::Server::InstanceImpl がサーバとしてのコアの実装がされています。
+筆者が読んだ限りで複雑かつ重要だと思われた server/ について更に踏み込みますと、 この中でも Envoy::Server::InstanceImpl クラスにサーバとしてのコアの実装がされています。
 このクラスの実装内で本記事で現れた Dispatcher やスレッドローカルストレージ、 worker スレッドを生成する WorkerFactory の制御がされています。
-WorkerFactory は WorkerImpl のインスタンス生成を行い、 worker スレッドの処理はこのクラスが担います。具体的には worker スレッドの持つ Dispatcher を使ってイベントループを実行します。
+WorkerFactory は worker スレッドの具体的な処理を実装した WorkerImpl クラスのインスタンス生成を行います。
+具体的には worker スレッドの持つ Dispatcher を使ってイベントループを実行します。
 
 Dispatcher やスレッドの実装は common/ の方に存在します。
-Dispatcher は worker スレッドが処理すべきイベントに対する操作を提供し、また worker スレッドが実行するイベントループ実行の実装を持っています。
+Dispatcher は worker スレッドが処理すべきイベントに対する操作、例えば libevent の evtimer_assign() や event_add() を使ったタイマーイベントの追加などの操作を提供します。
+また worker スレッドが event_base_loop() でイベントを待ち受ける処理の実装を持っています。
 スレッドは非常にシンプルで、 pthread API の pthread_create(), pthread_join() を呼んでスレッドの開始と終了待ち受け操作を提供します。
 
-時間が限られていたため、記事の執筆に必要であろうスレッドやイベント処理部分のみを読んだ限りになってしまったため、筆者のソースコードリーティングは以上までとなりました。
-時間が許されていれば HTTP connection manager や Cluster 、 xDS API 関連の実装を読み解くと面白いのではないかと考えています。
+時間が限られており、今回の記事の執筆に必要であろうスレッドやイベント処理部分のみを読んだ限りになってしまったため、筆者のソースコードリーティングは以上までとなりました。
+あまり整理されていない内容ですが、これから Envoy の動作を深く理解したい方や機能拡張を行ってみたい方に少しでも力になれていれば幸いです。
+また筆者としては時間が許されていれば HTTP connection manager や Cluster などコアな機能の周辺や Filter 、 xDS API 関連など外部システムとの連携に使われる機能の実装を読み解くと面白いのではないかと考えています。
+
+//footnote[boost][Boost C++ Libraries: https://www.boost.org/]
+//footnote[nghttp2][nghttp2/nghttp2: https://github.com/nghttp2/nghttp2]
+//footnote[luajit][The LuaJIT Project: http://luajit.org/]
+//footnote[bazel][Bazel - a fast, scalable, multi-language and extensible build system" - Bazel: https://bazel.build/]
 
 
 == まとめ
 
 マイクロサービスアーキテクチャと Envoy に関する記事、いかがでしたか？
-少しでも何かの助けや今後の参考になれば幸いです。
+Envoy はマイクロサービスという新しい世界において、サービスメッシュを構築するのを手助けしてくれるプロキシサーバです。
+開発の経緯が Lyft でのマイクロサービス前提のサービス提供における課題を軽減するために作られたこともあり、同様の課題に衝突しそうになった場合には有効にはたらいてくれると思われます。
+本記事の情報が少しでも何かの助けや今後の参考になれば幸いです。
+
 マイクロサービス化は容易ではなく、 Envoy 含めて新しく学ぶべきことが多く、様々な障壁に衝突するかも知れません。
 もし組織やプロダクトにマイクロサービスアーキテクチャがマッチしていると思われるのなら、一緒に困難に向かえる仲間を作り、失敗を恐れず挑戦していく必要があるかと筆者は考えます。
 
-余談ですが筆者のキャリアは大きめの Web 系企業のインフラ部隊でリバースプロキシの開発・運用をすることから開始しています。
-その為今回の Envoy の記事の執筆は原点回帰の意味もあり、過去を懐かしみながらマイクロサービスという新しい課題に取り組むという、時間的ギャップを感じる作業でした。
+また Envoy は今回紹介しきれなかった運用の手助けになるような機能が他にも充実しています。
+これには例えば Hot Restart という処理中のリクエストをドロップすることなく Envoy のリロードを行う機能、 優先度を加味したロードバランシング、 EDS API 以外の xDS API の利用などが挙げられます。
+特に Hot Restart は実現するための技術的な取り組みが実装に色濃く反映されているため、もし今回以降マイクロサービスに関する記事を書く機会ができればぜひ取り組んでみたいと考えています。
+
+余談ですが筆者のキャリアは大きめの Web 系企業のインフラ部隊で全社向けのリバースプロキシプラットフォームの開発・運用をすることから開始しています。
+その為今回の Envoy の記事の執筆は原点回帰の意味もあり、過去を懐かしみながらマイクロサービスという新しい課題に取り組むという、少々の懐かしさを感じる不思議な作業となりました。
 
