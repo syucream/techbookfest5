@@ -111,7 +111,7 @@ Envoy の担う機能はアプリケーションとはコンテナレベルで�
 
 === Istio とは
 
-Istio @<fn>{istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行うソフトウェアです。
+Istio @<fn>{istio} は Envoy で Data Plane を提供しつつ Control Plane も別途提供することで、マイクロサービス間のコネクションを変更・制御したり認証認可や暗号化によるセキュリティ担保を行う、マイクロサービスの世界でサービスメッシュと呼ばれる機能を提供するソフトウェアです。
 現状だとターゲットとするインフラとして Kubernetes を前提にしています。
 
 Istio では Envoy を一部拡張して Data Plane を実現するのに使います。
@@ -633,6 +633,8 @@ static_resources:
 
 
 この JSON ファイルを配信する方法は何でもいいのですが、今回は nginx で EDS API のエンドポイント v2/discovery:endpoints でリクエストされた際に返却できるようにしてみます。
+ここでちょっとした注意点なのですが、 xDS API を JSON REST API 形式で立てる場合 Envoy は仕様上 POST メソッドでリクエストを送ってきます。
+nginx で POST メソッドでのリクエストに対して静的なレスポンスを返す際、 POST メソッドを許可するような設定をする必要があります。
 
 //source[etc/httpxds/xds.conf]{
 server {
@@ -828,6 +830,10 @@ HTTP Filter の方が機能的に充実していて、細かな機能のオン�
 まず依存ライブラリについてですが、 Envoy は Boost などの大きめの外部ライブラリをあまり使わず、標準ライブラリと自前での実装でなるべく完結させようとしているようです。
 ただしイベント処理については前述の通り libevent に依存しています。また他の大きめの使用ライブラリとしては HTTP/2 処理に nghttp2 を、 HTTP Filter の Lua スクリプティングサポートのため LuaJIT に依存しています。
 
+ビルドツールとしては Envoy は Bazel @<fn>{bazel} という Google 発のツールを使っているようです。
+Bazel の主要な設定ファイルは bazel/ に配置されており、また各種サブディレクトリにも関連する BUILD ファイルが配置されています。
+ちなみに前述の Istio Proxy でも Envoy にならって Bazel でビルドするように構築されています。
+
 Envoy の基本的なヘッダファイルは典型的な C++ プロジェクトがそうしているように include/envoy/ に存在します。
 ここに格納されているヘッダファイルの内容のクラス名などは本記事で出てくるあるいは設定ファイルでよく使われる用語が多々出てきます。
 従ってアーキテクチャや設定ファイルを皮切りにソースコードリーティングをしたければ、ここを最初に眺めるのが良いかと思われます。
@@ -836,16 +842,20 @@ Envoy の基本的なヘッダファイルは典型的な C++ プロジェクト
 
 Envoy の実装の多くは source/ に存在します。
 その中でも広く使われる機能は common/ に、 main() から開始する処理のエントリポイントに当たる部分は exe/ に、サーバの初期化や設定ファイルの読み込み、ワーカスレッドの起動や停止などサーバとしてのコア実装部分は server/ に存在します。
-筆者が読んだ限りで複雑かつ重要である server/ について更に踏み込みますと、 この中でも Envoy::Server::InstanceImpl がサーバとしてのコアの実装がされています。
+筆者が読んだ限りで複雑かつ重要だと思われた server/ について更に踏み込みますと、 この中でも Envoy::Server::InstanceImpl クラスにサーバとしてのコアの実装がされています。
 このクラスの実装内で本記事で現れた Dispatcher やスレッドローカルストレージ、 worker スレッドを生成する WorkerFactory の制御がされています。
-WorkerFactory は WorkerImpl のインスタンス生成を行い、 worker スレッドの処理はこのクラスが担います。具体的には worker スレッドの持つ Dispatcher を使ってイベントループを実行します。
+WorkerFactory は worker スレッドの具体的な処理を実装した WorkerImpl クラスのインスタンス生成を行います。
+具体的には worker スレッドの持つ Dispatcher を使ってイベントループを実行します。
 
 Dispatcher やスレッドの実装は common/ の方に存在します。
-Dispatcher は worker スレッドが処理すべきイベントに対する操作を提供し、また worker スレッドが実行するイベントループ実行の実装を持っています。
+Dispatcher は worker スレッドが処理すべきイベントに対する操作、例えば libevent の evtimer_assign() や event_add() を使ったタイマーイベントの追加などの操作を提供します。
+また worker スレッドが event_base_loop() でイベントを待ち受ける処理の実装を持っています。
 スレッドは非常にシンプルで、 pthread API の pthread_create(), pthread_join() を呼んでスレッドの開始と終了待ち受け操作を提供します。
 
 時間が限られていたため、記事の執筆に必要であろうスレッドやイベント処理部分のみを読んだ限りになってしまったため、筆者のソースコードリーティングは以上までとなりました。
 時間が許されていれば HTTP connection manager や Cluster 、 xDS API 関連の実装を読み解くと面白いのではないかと考えています。
+
+//footnote[bazel][Bazel - a fast, scalable, multi-language and extensible build system" - Bazel: https://bazel.build/]
 
 
 == まとめ
