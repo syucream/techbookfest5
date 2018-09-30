@@ -140,15 +140,11 @@ Envoy のアーキテクチャの概要を図示したものが @<img>{syucream_
 Envoy のスレッドには役割分担があり、 main() から開始された単一の main スレッドとネットワーク I/O などのイベントを処理する複数の worker スレッドが存在します。
 worker スレッドの制御には pthread API を利用しています。 C++11 でサポートが入った std::thread の機能はほとんど使われておりません。
 なおこの worker スレッドの数は Envoy のコマンドラインオプション --concurrency で指定可能であり、指定しない場合はハードウェアスレッド数 ( std::thread::hardware_concurrency() から与えられる)分実行されるようです。
-@<comment>{textlint-disable}
-master, worker スレッド以外にも実は、アクセスログの出力などファイルフラッシュ時に含まれるブロッキング処理をオフロードするためのファイルフラッシュスレッドなども存在します。
-@<comment>{textlint-enable}
+@<comment>{textlint-disable}master, worker スレッド以外にも実は、アクセスログの出力などファイルフラッシュ時に含まれるブロッキング処理をオフロードするためのファイルフラッシュスレッドなども存在します。@<comment>{textlint-enable}
 
 またイベント処理に関しては libevent @<fn>{libevent} を使っています。
 Envoy では思想として 100 ％ノンブロッキングをうたっており、ネットワークやファイルの I/O 、内部的な処理をなるべくイベントドリブンで処理可能にしています。
-@<comment>{textlint-disable}
-ブロッキング処理を伴うファイルのフラッシュを worker スレッドから切り離されたファイルフラッシュスレッドを用意するあたり、この思想は実装に色濃く反映されていると言えるでしょう。
-@<comment>{textlint-enable}
+@<comment>{textlint-disable}ブロッキング処理を伴うファイルのフラッシュを worker スレッドから切り離されたファイルフラッシュスレッドを用意するあたり、この思想は実装に色濃く反映されていると言えるでしょう。@<comment>{textlint-enable}
 各ワーカスレッドはそれぞれ libevent でイベントループを回すための、 Envoy 内部で Dispatcher と呼ばれる構造を持ち、これを介してイベントのハンドリングを可能にしています。
 
 Envoy では更にスレッドローカルストレージを抽象化した実装を持ち、スレッド間の共有データを排除してロックなどによるパフォーマンス低下を回避しています。
